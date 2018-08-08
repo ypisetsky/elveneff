@@ -1,0 +1,58 @@
+body {
+  font-family: "Karla", sans-serif;
+
+}
+
+th {
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+td {
+  font-size: 12px;
+}
+
+#leftBar {
+  float: left;
+  height: 100%;
+  width: 150px;
+  border-right: 1px solid black;
+  padding: 5px;
+  margin-right: 5px;
+}
+
+#mainContent {
+  padding: 5px;
+  background-color: #CCCCCC;
+}
+
+.widgetRow {
+  width: 1250px;
+}
+
+.widget {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  border-radius: 3px;
+  border-width: medium;
+  background-color: white;
+  border-color: black;
+  border-style: solid;
+  min-height: 100px;
+  width: 600px;
+}
+
+.itemTable {
+  border-collapse: collapse;
+}
+
+.itemTable td {
+  border: blue 1px solid;
+  margin: 0px;
+  padding: 4px;
+}
+
+img.buildingImg {
+  width: 50%;
+}
