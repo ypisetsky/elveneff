@@ -35,7 +35,7 @@ class Widget extends React.Component {
       const cult = data[i][cultureIndex];
       const buildingSpace = w * h;
       const roadSpace = Math.min(w, h) / 2.0;
-      const effectiveCultureCost = Data.getEffectiveCultureCost(this.props.title, i, this.props.cultureDensity, this.props.residenceLevel);
+      const effectiveCultureCost = Data.getEffectiveCultureCost(this.props.title, i, this.props.cultureDensity, this.props.residenceLevel, this.props.workshopLevel, 180, 180);
       let popCell = <td>{pop}</td>;
       if (this.props.title == "Residence") {
         popCell = null;
@@ -43,14 +43,14 @@ class Widget extends React.Component {
       }
       rows.push(
         <tr key={i}>
-          <td>{data[i][1]} x {data[i][2]}</td>
+          <td>{data[i][1]}x{data[i][2]}</td>
           <td>{Data.renderChapter(data[i][chapterIndex])}</td>
           <td>{cult}</td>
           {popCell}
           <td>{out}</td>
           <td>{formatNum(out / cult)}</td>
           <td>{formatNum(out / (buildingSpace + roadSpace))}</td>
-          <td>{formatNum(out / effectiveCultureCost)}</td>
+          <td>{formatNum(out * this.props.cultureDensity / effectiveCultureCost)}</td>
         </tr>
       );
     }
@@ -65,7 +65,7 @@ class Widget extends React.Component {
           <th>{outName}</th>
           <th>{outName}/Culture</th>
           <th>{outName}/Tile</th>
-          <th>Effective {outName} per culture</th>
+          <th>Effective {outName} / Culture tile</th>
         </tr>
         {rows}
       </tbody>

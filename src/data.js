@@ -95,7 +95,103 @@ const BuildingData = {
     [ 9,6,3,106, 332,781],
     [ 9,6,3,125, 383,841],
     [ 9,6,3,148, 442,910],
-  ]
+  ],
+  Crystal: [
+    [ 2,3,2,  0,  92,  28],
+    [ 2,3,2,  8,  11,  38],
+    [ 2,3,2,  8,  11,  47],
+    [ 2,3,2, 11,  13,  56],
+    [ 2,3,2, 11,  14,  66], // 5
+    [ 2,3,2,  4,  16,  75],
+    [ 3,3,3, 29,  11, 132],
+    [ 3,3,3,  7,  40, 148],
+    [ 3,3,3,  9,  41, 163],
+    [ 3,3,3, 10,  51, 179], // 10
+    [ 5,4,3, 47, 217, 257],
+    [ 5,4,3, 15, 110, 279],
+    [ 5,4,3, 18, 112, 301],
+    [ 5,4,3, 20, 114, 323],
+    [ 5,4,3, 22, 143, 342], // 15
+    [ 7,4,4,159, 436, 493],
+    [ 7,4,4, 68, 236, 534],
+    [ 7,4,4, 80, 272, 574],
+    [ 7,4,4, 95, 313, 618],
+    [10,4,5,294,1007, 835], // 20
+    [10,4,5,165, 516, 901],
+    [10,4,5,194, 596, 973],
+    [10,4,5,230, 687,1048],
+  ],
+  Elixir: [
+    [3,4,3,0,211,56],
+    [3,4,3,19,24,75],
+    [3,4,3,18,26,91],
+    [3,4,3,24,29,113],
+    [4,4,4,55,139,176], // 5
+    [4,4,4,13,48,204],
+    [4,4,4,14,68,232],
+    [4,4,4,16,81,260],
+    [5,4,5,62,260,361],
+    [5,4,5,25,131,395], // 10
+    [5,4,5,27,157,430],
+    [5,4,5,31,210,464],
+    [5,4,5,33,214,502],
+    [5,4,5,38,218,537],
+    [5,4,5,42,271,571], // 15
+    [8,4,5,123,81,618],
+    [8,4,3,97,333,665],
+    [8,4,5,114,384,719],
+    [8,4,5,135,443,775],
+    [11,6,4,369,1280,1004], // 20
+    [11,6,4,226,708,1083],
+    [11,6,4,267,817,1167],
+    [11,6,4,314,943,1262],
+  ],
+  "Armory (Training)": [
+    [1,2,2,0,18,3],
+    [1,2,2,10,3,4],
+    [1,2,2,16,3,5],
+    [1,2,2,22,3,6],
+    [2,3,3,121,42,14], // 5
+    [2,3,3,32,9,15],
+    [2,3,3,25,10,16],
+    [2,3,3,26,12,17],
+    [4,4,4,241,98,31],
+    [4,4,4,58,32,32], // 10
+    [4,4,4,46,31,33],
+    [4,4,4,46,42,34],
+    [4,4,4,47,42,36],
+    [4,4,4,48,53,40], // 15
+    [6,5,4,408,156,50],
+    [6,5,4,135,37,60],
+    [7,6,3,67,32,70],
+    [7,6,3,84,33,80], 
+    [8,5,5,795,295,130], // 20
+    [8,5,5,235,105,140],
+    [8,5,5,292,115,150],
+    [8,5,5,315,126,160],
+    [10,6,4,200,79,170],
+    [10,6,4,352,151,185], // 25
+    [10,6,4,394,159,200],
+    [10,6,4,428,177,215],
+    [12,7,3,225,95,230],
+    [12,7,3,236,100,245],
+    [12,7,3,364,113,260], // 30
+    [12,7,3,556,218,280],
+  ],
+  "Armory (Orcs)": [
+    [8,5,5,795,295,380], // 20
+    [8,5,5,235,105,420],
+    [8,5,5,292,115,470],
+    [8,5,5,315,126,520],
+    [10,6,4,200,79,580],
+    [10,6,4,352,151,640], // 25
+    [10,6,4,394,159,700],
+    [10,6,4,428,177,770],
+    [12,7,3,225,95,840],
+    [12,7,3,236,100,920],
+    [12,7,3,364,113,1000], // 30
+    [12,7,3,556,218,1090],
+  ],
 }
 
 if (!BuildingData.Processed) {
@@ -114,6 +210,12 @@ if (!BuildingData.Processed) {
   BuildingData.Processed = true;
 }
 
+const GoodsRatios = {
+  180: 0.319,
+  540: 0.583,
+  1440: 1,
+  2880: 1.464,
+}
 
 const BuildingMeta = {
   Residence: {
@@ -123,11 +225,41 @@ const BuildingMeta = {
   Workshop: {
     Image: "workshop.png",
     Output: "Sup",
+    Production: {
+      5: 0.153,
+      15: 0.406,
+      60: 1,
+      180: 1.935,
+      540: 3.33,
+      1440: 4.86,
+    },
   },
   Marble: {
     Image: "marble.png",
     Output: "Marble",
-  }
+    Production: GoodsRatios,
+    SuppliesPerOut: 2,
+  },
+  Crystal: {
+    Image: "crystal.png",
+    Output: "Crystal",
+    Production: GoodsRatios,
+    SuppliesPerOut: 8,
+  },
+  Elixir: {
+    Image: "elixir.png",
+    Output: "Elixir",
+    Production: GoodsRatios,
+    SuppliesPerOut: 32,
+  },
+  "Armory (Training)": {
+    Image: "armory.png",
+    Output: "Train Size",
+  },
+  "Armory (Orcs)": {
+    Image: "armory.png",
+    Output: "Orcs",
+  },
 }
 
 function renderChapter(chapter) {
@@ -159,22 +291,42 @@ function renderChapter(chapter) {
   }
 }
 
-function getEffectiveCultureCost(name, lvl, cultureDensity, residenceLevel) {
-  console.log(name,lvl);
+function getEffectiveCultureCost(name, lvl, cultureDensity, residenceLevel, wsLevel, wsTime, goodsTime) {
   const row = BuildingData[name][lvl];
   const size = row[1] * row[2] + Math.min(row[1], row[2]) / 2.0;
   let result = row[cultureIndex] + size * cultureDensity;
   if (name != "Residence") {
-    result += row[popIndex] * getEffectiveCultureCost("Residence", residenceLevel, cultureDensity, residenceLevel) /
+    result += row[popIndex] * getEffectiveCultureCost("Residence", residenceLevel, cultureDensity, residenceLevel, wsLevel, wsTime, goodsTime) /
       BuildingData.Residence[residenceLevel][outputIndex];
   }
-  console.log(name,lvl,cultureDensity,residenceLevel, result, row[cultureIndex] + size * cultureDensity);
+  if (BuildingMeta[name].SuppliesPerOut) {
+    const suppliesNeeded = BuildingMeta[name].Production[goodsTime] * row[outputIndex] * BuildingMeta[name].SuppliesPerOut;
+    const wsOutput = BuildingData.Workshop[wsLevel][outputIndex] * BuildingMeta.Workshop.Production[wsTime];
+    const wsCost = getEffectiveCultureCost("Workshop", wsLevel, cultureDensity, residenceLevel, wsLevel, wsTime, goodsTime);
+    console.log(suppliesNeeded, wsOutput, wsCost, wsLevel, wsTime, BuildingMeta[name]);
+    result += suppliesNeeded / wsOutput * wsCost; 
+  }
   return result;
+}
+
+function renderTime(minutes) {
+  const renderString = (num, label) => {
+    if (num == 1) {
+      return "1 " + label;
+    } return num + " " + label + "s";
+  }
+  if (minutes < 60) {
+    return renderString(minutes, "minute");
+  } else if (minutes < 1440) {
+    return renderString(minutes / 60., "hour");
+  } else return renderString(minutes / 1440., "day");
 }
 
 module.exports = {
   BuildingData: BuildingData,
   BuildingMeta: BuildingMeta,
+  GoodsRatios: GoodsRatios,
   renderChapter: renderChapter,
   getEffectiveCultureCost: getEffectiveCultureCost,
+  renderTime: renderTime,
 }
