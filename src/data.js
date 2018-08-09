@@ -164,7 +164,7 @@ const BuildingData = {
     [6,5,4,408,156,50],
     [6,5,4,135,37,60],
     [7,6,3,67,32,70],
-    [7,6,3,84,33,80], 
+    [7,6,3,84,33,80],
     [8,5,5,795,295,130], // 20
     [8,5,5,235,105,140],
     [8,5,5,292,115,150],
@@ -215,6 +215,49 @@ const GoodsRatios = {
   540: 0.583,
   1440: 1,
   2880: 1.464,
+}
+
+const CollectionOptions = {
+  1: {
+    Collections: {
+      1440: 1,
+    },
+    Description: "One 24h production",
+  },
+  2: {
+    Collections: {
+      540: 2,
+    },
+    Description: "Two 9h productions",
+  },
+  3: {
+    Collections: {
+      540: 2,
+      180: 1,
+    },
+    Description: "Two 9h productions, one 3h production",
+  },
+  4: {
+    Collections: {
+      540: 1,
+      180: 3,
+    },
+    Description: "One 9h production, three 3h productions",
+  },
+  5: {
+    Collections: {
+      540: 1,
+      180: 4,
+    },
+    Description: "One 9h production, four 3h productions"
+  },
+  6: {
+    Collections: {
+      540: 1,
+      180: 5,
+    },
+    Description: "One 9h production, five 3h productions"
+  },
 }
 
 const BuildingMeta = {
@@ -304,7 +347,7 @@ function getEffectiveCultureCost(name, lvl, cultureDensity, residenceLevel, wsLe
     const wsOutput = BuildingData.Workshop[wsLevel][outputIndex] * BuildingMeta.Workshop.Production[wsTime];
     const wsCost = getEffectiveCultureCost("Workshop", wsLevel, cultureDensity, residenceLevel, wsLevel, wsTime, goodsTime);
     console.log(suppliesNeeded, wsOutput, wsCost, wsLevel, wsTime, BuildingMeta[name]);
-    result += suppliesNeeded / wsOutput * wsCost; 
+    result += suppliesNeeded / wsOutput * wsCost;
   }
   return result;
 }
@@ -325,6 +368,7 @@ function renderTime(minutes) {
 module.exports = {
   BuildingData: BuildingData,
   BuildingMeta: BuildingMeta,
+  CollectionOptions: CollectionOptions,
   GoodsRatios: GoodsRatios,
   renderChapter: renderChapter,
   getEffectiveCultureCost: getEffectiveCultureCost,

@@ -73,7 +73,7 @@ const mainDomContainer = document.querySelector('#mainContentContainer');
 class LeftNav extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {cultureDensity: 100, wsTime: 180, residenceLevel: 18 }; // really level 19, but 0 indexing
+    this.state = {cultureDensity: 100, collectCount: 3, residenceLevel: 18 }; // really level 19, but 0 indexing
   }
   render() {
     const cultureDensityText = <input type="text" size="5" value={this.state.cultureDensity} onChange={(event) => this.setState({cultureDensity: event.target.value})}/>;
@@ -89,12 +89,12 @@ class LeftNav extends React.Component {
       );
     }
 
-    const wsOptions = [];
-    const wsProductionData = Data.BuildingMeta.Workshop.Production;
-    for (let minutes in wsProductionData) {
-      wsOptions.push(
-        <option selected={minutes == this.state.workshopTime} value={minutes} key={minutes}>
-          {Data.renderTime(minutes)}
+    const collectOpts = [];
+    console.log(Data.CollectionOptions);
+    for (let i in Data.CollectionOptions) {
+      collectOpts.push(
+        <option selected={i == this.state.collectCount} value={i} key={i}>
+          {Data.CollectionOptions[i].Description}
         </option>
       );
     }
@@ -106,9 +106,9 @@ class LeftNav extends React.Component {
         {resOptions}
       </select>
       <br />
-      Workshop production time:
-      <select onChange={(event) => this.setState({workshopTime: event.target.value})}>
-        {wsOptions}
+      Daily Collections:
+      <select onChange={(event) => this.setState({collectCount: event.target.value})}>
+        {collectOpts}
       </select>
     </form>
   }
