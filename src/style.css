@@ -1,6 +1,6 @@
 body {
   font-family: "Karla", sans-serif;
-
+  margin-left: 3px;
 }
 
 th {
@@ -15,9 +15,10 @@ td {
 #leftBar {
   position: absolute;
   height: 100%;
-  width: 150px;
+  width: 155px;
   border-right: 1px solid black;
   padding: 5px;
+  padding-left: 2px;
   margin-right: 5px;
   z-index: 10;
 }

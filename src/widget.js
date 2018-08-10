@@ -10,6 +10,9 @@ const outputIndex = 5;
 const chapterIndex = 0;
 
 function formatNum(num) {
+  if (num > 1000) {
+    return num.toFixed();
+  }
   return num.toPrecision(3);
 }
 
@@ -35,7 +38,15 @@ class Widget extends React.Component {
       const cult = data[i][cultureIndex];
       const buildingSpace = w * h;
       const roadSpace = Math.min(w, h) / 2.0;
-      const effectiveCultureCost = Data.getEffectiveCultureCost(this.props.title, i, this.props.cultureDensity, this.props.residenceLevel, this.props.workshopLevel, 180, 180);
+      const effectiveCultureCost = Data.getEffectiveCultureCost(
+        this.props.title, 
+        i, 
+        this.props.cultureDensity, 
+        this.props.residenceLevel, 
+        this.props.workshopLevel,
+        this.props.collectCount,
+        this.props.streetCulture,
+      );
       let popCell = <td>{pop}</td>;
       if (this.props.title == "Residence") {
         popCell = null;
@@ -48,6 +59,7 @@ class Widget extends React.Component {
           <td>{cult}</td>
           {popCell}
           <td>{out}</td>
+          <td>{formatNum(effectiveCultureCost / this.props.cultureDensity)}</td>
           <td>{formatNum(out / cult)}</td>
           <td>{formatNum(out / (buildingSpace + roadSpace))}</td>
           <td>{formatNum(out * this.props.cultureDensity / effectiveCultureCost)}</td>
@@ -63,6 +75,7 @@ class Widget extends React.Component {
           <th>Culture</th>
           {popHeader}
           <th>{outName}</th>
+          <th>Spaces used</th>
           <th>{outName}/Culture</th>
           <th>{outName}/Tile</th>
           <th>Effective {outName} / Culture tile</th>

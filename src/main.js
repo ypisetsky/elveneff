@@ -21,7 +21,13 @@ class WidgetOrSelectorContainer extends React.Component {
       return <td>
         <button onClick={() => this.setState({selectedBuilding: null})}>Select Another Building</button>
         <br />
-        <Widget title={this.state.selectedBuilding} cultureDensity={this.props.cultureDensity} residenceLevel={this.props.residenceLevel} workshopLevel="18" />
+        <Widget 
+          title={this.state.selectedBuilding} 
+          cultureDensity={this.props.cultureDensity} 
+          residenceLevel={this.props.residenceLevel} 
+          streetCulture={this.props.streetCulture}
+          workshopLevel={18}
+          collectCount={this.props.collectCount} />
       </td>;
     }
   }
@@ -45,6 +51,8 @@ class MainWindow extends React.Component {
     this.state = {
       cultureDensity: 100,
       residenceLevel: 18,
+      collectCount: 3,
+      streetCulture: 49,
     };
   }
 
@@ -53,8 +61,8 @@ class MainWindow extends React.Component {
       <table className="widgetRow">
         <tbody>
           <tr>
-            <WidgetOrSelectorContainer key="left" cultureDensity={this.state.cultureDensity} residenceLevel={this.state.residenceLevel} />
-            <WidgetOrSelectorContainer key="right" cultureDensity={this.state.cultureDensity} residenceLevel={this.state.residenceLevel} />
+            <WidgetOrSelectorContainer key="left" cultureDensity={this.state.cultureDensity} residenceLevel={this.state.residenceLevel} collectCount={this.state.collectCount} streetCulture={this.state.streetCulture} />
+            <WidgetOrSelectorContainer key="right" cultureDensity={this.state.cultureDensity} residenceLevel={this.state.residenceLevel} collectCount={this.state.collectCount} streetCulture={this.state.streetCulture} />
           </tr>
         </tbody>
       </table>
@@ -73,10 +81,36 @@ const mainDomContainer = document.querySelector('#mainContentContainer');
 class LeftNav extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {cultureDensity: 100, collectCount: 3, residenceLevel: 18 }; // really level 19, but 0 indexing
+    this.state = {
+      cultureDensity: 100, 
+      collectCount: 3, 
+      residenceLevel: 18, // really level 19, but 0 indexing
+      streetCulture: 49,
+    };
+    this.setResidenceLevel = this.setResidenceLevel.bind(this);
+    this.setCollectCount = this.setCollectCount.bind(this);
+    this.setCultureDensity = this.setCultureDensity.bind(this);
+    this.setStreetCulture = this.setStreetCulture.bind(this);
   }
+
+  setResidenceLevel(event) {
+    this.setState({residenceLevel: event.target.value});
+  }
+
+  setCollectCount(event) {
+    this.setState({collectCount: event.target.value});
+  }
+
+  setCultureDensity(event) {
+    this.setState({cultureDensity: event.target.value});
+  }
+
+  setStreetCulture(event) {
+    this.setState({streetCulture: event.target.value});
+  }
+
   render() {
-    const cultureDensityText = <input type="text" size="5" value={this.state.cultureDensity} onChange={(event) => this.setState({cultureDensity: event.target.value})}/>;
+    const cultureDensityText = <input type="text" size="5" value={this.state.cultureDensity} onChange={this.setCultureDensity}/>;
 
 
     const resOptions= [];
@@ -98,20 +132,36 @@ class LeftNav extends React.Component {
         </option>
       );
     }
+
+    const streetOpts = [];
+    for (let i in Data.Roads) {
+      streetOpts.push(
+        <option selected={i == this.state.streetCulture} value={i} key={i}>
+          {Data.Roads[i]}
+        </option>
+      );
+    }
+
     return <form>
       Culture Density: {cultureDensityText}
       <br />
       Residence Level:
-      <select onChange={(event) => this.setState({residenceLevel: event.target.value})}>
+      <select onChange={this.setResidenceLevel}>
         {resOptions}
       </select>
       <br />
       Daily Collections:
-      <select onChange={(event) => this.setState({collectCount: event.target.value})}>
+      <select onChange={this.setCollectCount}>
         {collectOpts}
       </select>
-    </form>
+      <br />
+      Street Options: <select onChange={this.setStreetCulture}>
+        {streetOpts}
+      </select>
+    </form>;
   }
+
+
 
   componentDidUpdate() {
     console.log(this.state);

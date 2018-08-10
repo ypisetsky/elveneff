@@ -6,8 +6,8 @@ const outputIndex = 5;
 const chapterIndex = 0;
 
 const BuildingData = {
-  "Processed": false,
-  "Residence": [
+  Processed: false,
+  Residence: [
     [ 1,2,2,0,   0,31],
     [ 1,2,2,3,   0,4],
     [ 1,2,2,4,   0,5],
@@ -38,7 +38,7 @@ const BuildingData = {
     [12,4,4,158, 0,400],
     [12,4,4,108, 0,200],
   ],
-  "Workshop": [
+  Workshop: [
     [ 1,2,2,   0, 18,  29],
     [ 1,2,2,   2,  6,  53],
     [ 1,2,2,   5,  8,  74],
@@ -138,7 +138,7 @@ const BuildingData = {
     [5,4,5,38,218,537],
     [5,4,5,42,271,571], // 15
     [8,4,5,123,81,618],
-    [8,4,3,97,333,665],
+    [8,4,5,97,333,665],
     [8,4,5,114,384,719],
     [8,4,5,135,443,775],
     [11,6,4,369,1280,1004], // 20
@@ -222,41 +222,41 @@ const CollectionOptions = {
     Collections: {
       1440: 1,
     },
-    Description: "One 24h production",
+    Description: "One 24h",
   },
   2: {
     Collections: {
       540: 2,
     },
-    Description: "Two 9h productions",
+    Description: "Two 9h",
   },
   3: {
     Collections: {
       540: 2,
       180: 1,
     },
-    Description: "Two 9h productions, one 3h production",
+    Description: "Two 9h, one 3h",
   },
   4: {
     Collections: {
       540: 1,
       180: 3,
     },
-    Description: "One 9h production, three 3h productions",
+    Description: "One 9h, three 3h",
   },
   5: {
     Collections: {
       540: 1,
       180: 4,
     },
-    Description: "One 9h production, four 3h productions"
+    Description: "One 9h, four 3h"
   },
   6: {
     Collections: {
       540: 1,
       180: 5,
     },
-    Description: "One 9h production, five 3h productions"
+    Description: "One 9h, five 3h"
   },
 }
 
@@ -305,6 +305,19 @@ const BuildingMeta = {
   },
 }
 
+const Roads = {
+  10: "Simple Trail(I)",
+  20: "Cobbled Road(III)",
+  30: "Ornate Street(V)",
+  49: "Dwarven St.(Dwrves)",
+  63: "Blossom St.(Fairies)",
+  77: "Wooden Trail(Orcs)",
+  95: "Greenery St(WdElves)",
+  117: "Lore St.(Sorcerers)",
+  144: "Country Ln.(Halflings)",
+  176: "Eternal St.(Elemntls)",
+}
+
 function renderChapter(chapter) {
   switch(chapter) {
     case 1:
@@ -334,21 +347,28 @@ function renderChapter(chapter) {
   }
 }
 
-function getEffectiveCultureCost(name, lvl, cultureDensity, residenceLevel, wsLevel, wsTime, goodsTime) {
+function getEffectiveCultureCost(name, lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture) {
   const row = BuildingData[name][lvl];
-  const size = row[1] * row[2] + Math.min(row[1], row[2]) / 2.0;
+  const roads = Math.min(row[1], row[2]) / 2.0
+  const size = row[1] * row[2] + roads;
   let result = row[cultureIndex] + size * cultureDensity;
   if (name != "Residence") {
-    result += row[popIndex] * getEffectiveCultureCost("Residence", residenceLevel, cultureDensity, residenceLevel, wsLevel, wsTime, goodsTime) /
+    result += row[popIndex] * getEffectiveCultureCost("Residence", residenceLevel, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture) /
       BuildingData.Residence[residenceLevel][outputIndex];
   }
   if (BuildingMeta[name].SuppliesPerOut) {
-    const suppliesNeeded = BuildingMeta[name].Production[goodsTime] * row[outputIndex] * BuildingMeta[name].SuppliesPerOut;
-    const wsOutput = BuildingData.Workshop[wsLevel][outputIndex] * BuildingMeta.Workshop.Production[wsTime];
-    const wsCost = getEffectiveCultureCost("Workshop", wsLevel, cultureDensity, residenceLevel, wsLevel, wsTime, goodsTime);
-    console.log(suppliesNeeded, wsOutput, wsCost, wsLevel, wsTime, BuildingMeta[name]);
+    let suppliesNeeded = 0;
+    let wsOutput = 0;
+    for(let time in CollectionOptions[collectCount].Collections) {
+      suppliesNeeded += BuildingMeta[name].Production[time] * row[outputIndex] * BuildingMeta[name].SuppliesPerOut * CollectionOptions[collectCount].Collections[time];
+      console.log(wsLevel,BuildingData.Workshop[wsLevel], BuildingMeta.Workshop.Production,CollectionOptions[collectCount].Collections);
+      wsOutput += BuildingData.Workshop[wsLevel][outputIndex] * BuildingMeta.Workshop.Production[time] * CollectionOptions[collectCount].Collections[time];
+    }
+    const wsCost = getEffectiveCultureCost("Workshop", wsLevel, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture);
     result += suppliesNeeded / wsOutput * wsCost;
   }
+  result -= roads * streetCulture; // the roads give us some culture back
+  console.log(name, lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture);
   return result;
 }
 
@@ -370,6 +390,7 @@ module.exports = {
   BuildingMeta: BuildingMeta,
   CollectionOptions: CollectionOptions,
   GoodsRatios: GoodsRatios,
+  Roads: Roads,
   renderChapter: renderChapter,
   getEffectiveCultureCost: getEffectiveCultureCost,
   renderTime: renderTime,
