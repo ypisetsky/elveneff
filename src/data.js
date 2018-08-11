@@ -306,16 +306,16 @@ const BuildingMeta = {
 }
 
 const Roads = {
-  10: "Simple Trail(I)",
-  20: "Cobbled Road(III)",
-  30: "Ornate Street(V)",
-  49: "Dwarven St.(Dwrves)",
-  63: "Blossom St.(Fairies)",
-  77: "Wooden Trail(Orcs)",
-  95: "Greenery St(WdElves)",
-  117: "Lore St.(Sorcerers)",
-  144: "Country Ln.(Halflings)",
-  176: "Eternal St.(Elemntls)",
+  10: { Name: "Simple Trail", Chapter: 1},
+  20: { Name: "Cobbled Road", Chapter: 3},
+  30: { Name: "Ornate Street", Chapter: 5},
+  49: { Name: "Dwarven St.", Chapter: 6},
+  63: { Name: "Blossom St.", Chapter: 7},
+  77: { Name: "Wooden Trail", Chapter: 8},
+  95: { Name: "Greenery St", Chapter: 9},
+  117: { Name: "Lore St.", Chapter: 10},
+  144: { Name: "Country Ln", Chapter: 11},
+  176: { Name: "Eternal St", Chapter: 12},
 }
 
 function renderChapter(chapter) {
@@ -337,13 +337,13 @@ function renderChapter(chapter) {
     case 8:
       return 'Goblins';
     case 9:
-      return 'Woodelves';
+      return 'WdElves';
     case 10:
-      return 'Sorcerors';
+      return 'Sorcerers';
     case 11:
       return 'Halflings';
     case 12:
-      return 'Elementals';
+      return 'Elemntls';
   }
 }
 
