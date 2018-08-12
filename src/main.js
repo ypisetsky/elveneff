@@ -5,6 +5,7 @@ import './style.css';
 
 import Data from './data';
 import Widget from './widget';
+import ResidenceCultureChecker from './rescult';
 
 console.log(Data.BuildingData);
 
@@ -17,14 +18,20 @@ class WidgetOrSelectorContainer extends React.Component {
   render() {
     if (!this.state.selectedBuilding) {
       return this.renderSelector();
+    } else if (this.state.selectedBuilding == "rescult"){
+      return <ResidenceCultureChecker
+        cultureDensity={this.props.cultureDensity}
+        residenceLevel={this.props.residenceLevel}
+        streetCulture={this.props.streetCulture}
+        />
     } else {
       return <td>
         <button onClick={() => this.setState({selectedBuilding: null})}>Select Another Building</button>
         <br />
-        <Widget 
-          title={this.state.selectedBuilding} 
-          cultureDensity={this.props.cultureDensity} 
-          residenceLevel={this.props.residenceLevel} 
+        <Widget
+          title={this.state.selectedBuilding}
+          cultureDensity={this.props.cultureDensity}
+          residenceLevel={this.props.residenceLevel}
           streetCulture={this.props.streetCulture}
           workshopLevel={18}
           collectCount={this.props.collectCount} />
@@ -34,11 +41,13 @@ class WidgetOrSelectorContainer extends React.Component {
 
   renderSelector() {
     const buildings = [];
+
     for (var name in Data.BuildingMeta) {
       buildings.push(<option value={name}>{name}</option>);
     }
     return <td className="widget"><select onChange={(event) => this.setState({selectedBuilding: event.target.value})}>
       <option value={null}>Select a Building</option>
+      <option value="rescult">Residence/Culture Calculator</option>
       {buildings}
     </select></td>;
   }
@@ -82,8 +91,8 @@ class LeftNav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cultureDensity: 100, 
-      collectCount: 3, 
+      cultureDensity: 100,
+      collectCount: 3,
       residenceLevel: 18, // really level 19, but 0 indexing
       streetCulture: 49,
     };
@@ -204,6 +213,11 @@ class LeftNav extends React.Component {
       if (Data.BuildingData.Workshop[i][0] <= chapter) {
         this.setState({workshopLevel: i});
         break;
+      }
+    }
+    for (let i = Data.Roads.length - 1; i >= 0; i--) {
+      if (Data.Roads[i].Chapter <= chapter) {
+        this.setState({streetCulture: Data})
       }
     }
     let cultureDensity = 145;

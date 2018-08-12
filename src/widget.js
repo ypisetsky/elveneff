@@ -16,7 +16,6 @@ function formatNum(num) {
   return num.toPrecision(3);
 }
 
-
 class Widget extends React.Component {
   constructor(props) {
     super(props);
@@ -39,10 +38,10 @@ class Widget extends React.Component {
       const buildingSpace = w * h;
       const roadSpace = Math.min(w, h) / 2.0;
       const effectiveCultureCost = Data.getEffectiveCultureCost(
-        this.props.title, 
-        i, 
-        this.props.cultureDensity, 
-        this.props.residenceLevel, 
+        this.props.title,
+        i,
+        this.props.cultureDensity,
+        this.props.residenceLevel,
         this.props.workshopLevel,
         this.props.collectCount,
         this.props.streetCulture,
