@@ -85,8 +85,6 @@ class MainWindow extends React.Component {
   }
 }
 
-const mainDomContainer = document.querySelector('#mainContentContainer');
-
 class LeftNav extends React.Component {
   constructor(props) {
     super(props);
@@ -267,7 +265,18 @@ class LeftNav extends React.Component {
   }
 }
 
-const window = ReactDOM.render(<MainWindow />, mainDomContainer);
-
-const leftDomContainer = document.querySelector("#leftBar");
-ReactDOM.render(<LeftNav mainWindow={window} />, leftDomContainer);
+class ElvenarCalculator extends React.Component {
+  render() {
+    const window = <MainWindow />;
+    const left = <LeftNav mainWindow={window} />;
+    return <div>
+      <div id="leftBar">
+        {left}
+      </div>
+      <div id="mainContentContainer">
+        {window}
+      </div>
+    </div>;
+  }
+}
+ReactDOM.render(<ElvenarCalculator />, document.querySelector("#reactRoot"));
