@@ -66,7 +66,11 @@ class MainWindow extends React.Component {
               residenceLevel={this.props.residenceLevel}
               collectCount={this.props.collectCount}
               streetCulture={this.props.streetCulture} />
-            <WidgetOrSelectorContainer key="right" cultureDensity={this.props.cultureDensity} residenceLevel={this.props.residenceLevel} collectCount={this.props.collectCount} streetCulture={this.props.streetCulture} />
+            <WidgetOrSelectorContainer key="right"
+              cultureDensity={this.props.cultureDensity}
+              residenceLevel={this.props.residenceLevel}
+              collectCount={this.props.collectCount}
+              streetCulture={this.props.streetCulture} />
           </tr>
         </tbody>
       </table>
@@ -84,6 +88,12 @@ class ElvenarCalculator extends React.Component {
       workshopLevel: 18,
       streetCulture: 49,
     };
+    //this.setResidenceLevel = this.setResidenceLevel.bind(this);
+    //this.setWorkshopLevel = this.setWorkshopLevel.bind(this);
+    //this.setCollectCount = this.setCollectCount.bind(this);
+    //this.setStreetCulture = this.setStreetCulture.bind(this);*/
+    this.quickSelect = this.quickSelect.bind(this);
+    this.setProp = this.setProp.bind(this);
   }
 
   render() {
@@ -98,6 +108,8 @@ class ElvenarCalculator extends React.Component {
       residenceLevel={this.state.residenceLevel}
       collectCount={this.state.collectCount}
       streetCulture={this.state.streetCulture}
+      onChapterSelect={this.quickSelect}
+      onChange={this.setProp}
     />;
     return <div>
       <div id="leftBar">
@@ -108,5 +120,70 @@ class ElvenarCalculator extends React.Component {
       </div>
     </div>;
   }
+
+  quickSelect(event) {
+    if (!event.target.value) {
+      return;
+    }
+    const chapter = event.target.value ;
+    for (let i = Data.BuildingData.Residence.length - 1; i >= 0; i--) {
+      if (Data.BuildingData.Residence[i][0] <= chapter) {
+        this.setState({residenceLevel: i});
+        break;
+      }
+    }
+    for (let i = Data.BuildingData.Workshop.length - 1; i >= 0; i--) {
+      if (Data.BuildingData.Workshop[i][0] <= chapter) {
+        this.setState({workshopLevel: i});
+        break;
+      }
+    }
+    for (let i = Data.Roads.length - 1; i >= 0; i--) {
+      if (Data.Roads[i].Chapter <= chapter) {
+        this.setState({streetCulture: Data})
+      }
+    }
+    let cultureDensity = 145;
+    switch (parseInt(chapter)) {
+      // In most cases, I use an item actually in the last row of techs from
+      // the previous age
+      case 1:
+        cultureDensity = 22; // Luminous Signpost
+        break;
+      case 2:
+        cultureDensity = 28; // Flying Boat (I)
+        break;
+      case 3:
+        cultureDensity = 33; // Spot of Whispering Trees (II)
+        break;
+      case 4:
+        cultureDensity = 49; // Mysterious Cyclone (III)
+        break;
+      case 5:
+        cultureDensity = 60; // Temple of Ages (IV)
+        break;
+      case 6:
+        cultureDensity = 85; // Ancient Grounds (halfway through)
+        break;
+      case 7:
+        cultureDensity = 96; // Temple of the Holy Fire (Dwarves)
+        break;
+      case 8:
+        cultureDensity = 123; // Pond of Recreation (Fairies); Diabhal's is only slightly higher
+        break;
+      case 9:
+        cultureDensity = 145; // Campfire BBQ (Orcs)
+        break;
+      default:
+        cultureDensity = 145;
+        break;
+    }
+    this.setState({cultureDensity: cultureDensity});
+  }
+
+  setProp(event) {
+    this.setState({[event.target.name]: event.target.value});
+  }
+
 }
 ReactDOM.render(<ElvenarCalculator />, document.querySelector("#reactRoot"));
