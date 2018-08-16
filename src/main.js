@@ -56,40 +56,49 @@ class WidgetOrSelectorContainer extends React.Component {
 
 
 class MainWindow extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cultureDensity: 100,
-      residenceLevel: 18,
-      collectCount: 3,
-      streetCulture: 49,
-    };
-  }
-
   render() {
     return <div id="mainContent">
       <table className="widgetRow">
         <tbody>
           <tr>
-            <WidgetOrSelectorContainer key="left" cultureDensity={this.state.cultureDensity} residenceLevel={this.state.residenceLevel} collectCount={this.state.collectCount} streetCulture={this.state.streetCulture} />
-            <WidgetOrSelectorContainer key="right" cultureDensity={this.state.cultureDensity} residenceLevel={this.state.residenceLevel} collectCount={this.state.collectCount} streetCulture={this.state.streetCulture} />
+            <WidgetOrSelectorContainer key="left"
+              cultureDensity={this.props.cultureDensity}
+              residenceLevel={this.props.residenceLevel}
+              collectCount={this.props.collectCount}
+              streetCulture={this.props.streetCulture} />
+            <WidgetOrSelectorContainer key="right" cultureDensity={this.props.cultureDensity} residenceLevel={this.props.residenceLevel} collectCount={this.props.collectCount} streetCulture={this.props.streetCulture} />
           </tr>
         </tbody>
       </table>
     </div>;
   }
-
-  updateCultureDensity(newDensity) {
-    this.setState({
-      cultureDensity: newDensity,
-    });
-  }
 }
 
 class ElvenarCalculator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cultureDensity: 100,
+      collectCount: 3,
+      residenceLevel: 18, // really level 19, but 0 indexing
+      workshopLevel: 18,
+      streetCulture: 49,
+    };
+  }
+
   render() {
-    const window = <MainWindow />;
-    const left = <LeftNav mainWindow={window} />;
+    const window = <MainWindow
+      cultureDensity={this.state.cultureDensity}
+      residenceLevel={this.state.residenceLevel}
+      collectCount={this.state.collectCount}
+      streetCulture={this.state.streetCulture}
+    />;
+    const left = <LeftNav parent={this}
+      cultureDensity={this.state.cultureDensity}
+      residenceLevel={this.state.residenceLevel}
+      collectCount={this.state.collectCount}
+      streetCulture={this.state.streetCulture}
+    />;
     return <div>
       <div id="leftBar">
         {left}

@@ -6,18 +6,13 @@ import Data from './data';
 class LeftNav extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      cultureDensity: 100,
-      collectCount: 3,
-      residenceLevel: 18, // really level 19, but 0 indexing
-      streetCulture: 49,
-    };
-    this.setResidenceLevel = this.setResidenceLevel.bind(this);
-    this.setWorkshopLevel = this.setWorkshopLevel.bind(this);
-    this.setCollectCount = this.setCollectCount.bind(this);
-    this.setCultureDensity = this.setCultureDensity.bind(this);
-    this.setStreetCulture = this.setStreetCulture.bind(this);
-    this.quickSelect = this.quickSelect.bind(this);
+    // TODO get rid of this silliness and pass callbacks
+    this.setResidenceLevel = this.setResidenceLevel.bind(props.parent);
+    this.setWorkshopLevel = this.setWorkshopLevel.bind(props.parent);
+    this.setCollectCount = this.setCollectCount.bind(props.parent);
+    this.setCultureDensity = this.setCultureDensity.bind(props.parent);
+    this.setStreetCulture = this.setStreetCulture.bind(props.parent);
+    this.quickSelect = this.quickSelect.bind(props.parent);
   }
 
   setResidenceLevel(event) {
@@ -41,14 +36,13 @@ class LeftNav extends React.Component {
   }
 
   render() {
-    const cultureDensityText = <input type="text" size="5" value={this.state.cultureDensity} onChange={this.setCultureDensity}/>;
-
+    const cultureDensityText = <input type="text" size="5" value={this.props.cultureDensity} onChange={this.setCultureDensity}/>;
 
     const resOptions= [];
     const resData = Data.BuildingData["Residence"];
     for (let i = 0; i < resData.length; i++) {
       resOptions.push(
-        <option selected={i == this.state.residenceLevel} value={i} key={i}>
+        <option selected={i == this.props.residenceLevel} value={i} key={i}>
           Level {i+1} ({Data.renderChapter(resData[i][0])})
         </option>
       );
@@ -58,7 +52,7 @@ class LeftNav extends React.Component {
     console.log(Data.CollectionOptions);
     for (let i in Data.CollectionOptions) {
       collectOpts.push(
-        <option selected={i == this.state.collectCount} value={i} key={i}>
+        <option selected={i == this.props.collectCount} value={i} key={i}>
           {Data.CollectionOptions[i].Description}
         </option>
       );
@@ -67,7 +61,7 @@ class LeftNav extends React.Component {
     const streetOpts = [];
     for (let i in Data.Roads) {
       streetOpts.push(
-        <option selected={i == this.state.streetCulture} value={i} key={i}>
+        <option selected={i == this.props.streetCulture} value={i} key={i}>
           {Data.Roads[i].Name}({Data.renderChapter(Data.Roads[i].Chapter)})
         </option>
       );
@@ -173,13 +167,6 @@ class LeftNav extends React.Component {
     }
     console.log(chapter, cultureDensity);
     this.setState({cultureDensity: cultureDensity});
-  }
-
-
-
-  componentDidUpdate() {
-    console.log(this.state);
-    this.props.mainWindow.setState(this.state);
   }
 }
 
