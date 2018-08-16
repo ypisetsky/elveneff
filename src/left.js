@@ -59,7 +59,7 @@ class LeftNav extends React.Component {
       <br />
       Culture Density:
       <input type="text" size="5" value={this.props.cultureDensity}
-        name="cultureDensity" onChange={this.props.onChange} />;
+        name="cultureDensity" onChange={this.props.onChange} />
       <br />
       Residence Level:
       <select name="residenceLevel" value={this.props.residenceLevel}
