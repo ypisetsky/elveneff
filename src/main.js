@@ -34,7 +34,7 @@ class WidgetOrSelectorContainer extends React.Component {
           cultureDensity={this.props.cultureDensity}
           residenceLevel={this.props.residenceLevel}
           streetCulture={this.props.streetCulture}
-          workshopLevel={18}
+          workshopLevel={this.props.workshopLevel}
           collectCount={this.props.collectCount} />
       </td>;
     }
@@ -64,11 +64,13 @@ class MainWindow extends React.Component {
             <WidgetOrSelectorContainer key="left"
               cultureDensity={this.props.cultureDensity}
               residenceLevel={this.props.residenceLevel}
+              workshopLevel={this.props.workshopLevel}
               collectCount={this.props.collectCount}
               streetCulture={this.props.streetCulture} />
             <WidgetOrSelectorContainer key="right"
               cultureDensity={this.props.cultureDensity}
               residenceLevel={this.props.residenceLevel}
+              workshopLevel={this.props.workshopLevel}
               collectCount={this.props.collectCount}
               streetCulture={this.props.streetCulture} />
           </tr>
@@ -100,12 +102,14 @@ class ElvenarCalculator extends React.Component {
     const window = <MainWindow
       cultureDensity={this.state.cultureDensity}
       residenceLevel={this.state.residenceLevel}
+      workshopLevel={this.state.workshopLevel}
       collectCount={this.state.collectCount}
       streetCulture={this.state.streetCulture}
     />;
     const left = <LeftNav parent={this}
       cultureDensity={this.state.cultureDensity}
       residenceLevel={this.state.residenceLevel}
+      workshopLevel={this.state.workshopLevel}
       collectCount={this.state.collectCount}
       streetCulture={this.state.streetCulture}
       onChapterSelect={this.quickSelect}
@@ -138,11 +142,13 @@ class ElvenarCalculator extends React.Component {
         break;
       }
     }
-    for (let i = Data.Roads.length - 1; i >= 0; i--) {
-      if (Data.Roads[i].Chapter <= chapter) {
-        this.setState({streetCulture: Data})
+    let best = 0;
+    for (let streetCulture in Data.Roads) {
+      if (Data.Roads[streetCulture].Chapter <= chapter && streetCulture > best) {
+        best = streetCulture;
       }
     }
+    this.setState({streetCulture: best});
     let cultureDensity = 145;
     switch (parseInt(chapter)) {
       // In most cases, I use an item actually in the last row of techs from

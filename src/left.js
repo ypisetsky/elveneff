@@ -15,6 +15,16 @@ class LeftNav extends React.Component {
       );
     }
 
+    const wsOptions= [];
+    const wsData = Data.BuildingData["Workshop"];
+    for (let i = 0; i < wsData.length; i++) {
+      wsOptions.push(
+        <option value={i} key={i}>
+          Level {i+1} ({Data.renderChapter(wsData[i][0])})
+        </option>
+      );
+    }
+
     const collectOpts = [];
     console.log(Data.CollectionOptions);
     for (let i in Data.CollectionOptions) {
@@ -68,8 +78,9 @@ class LeftNav extends React.Component {
       </select>
       <br />
       Workshop Level:
-      <select name="workshopLevel" onChange={this.props.onChange}>
-        {resOptions}
+      <select name="workshopLevel" onChange={this.props.onChange}
+        value={this.props.workshopLevel} >
+        {wsOptions}
       </select>
       <br />
       Streets: <select name="streetCulture" onChange={this.props.onChange}
