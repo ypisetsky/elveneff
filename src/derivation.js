@@ -1,4 +1,5 @@
 'use strict';
+import React from 'react';
 
 export class SumHolder {
   constructor(description) {
@@ -28,6 +29,14 @@ export class SumHolder {
       elem.scaleBy(scale);
     }
   }
+
+  clone() {
+    const ret = new SumHolder(this.description);
+    for (const element of this.terms) {
+      ret.append(element.clone());
+    }
+    return ret;
+  }
 }
 
 export class Value {
@@ -39,11 +48,26 @@ export class Value {
   scaleBy(scale) {
     this.value *= scale;
   }
-}
 
-/*class Derivation extends React.Component {
-  render() {
-    return <ul>
+  clone() {
+    return new Value(this.description, this.value);
   }
 }
-*/
+
+export class Derivation extends React.Component {
+  render() {
+    const e = this.props.item;
+    const word = this.props.word;
+    if (e instanceof Value) {
+      return <li>{e.value} {word} for {e.description}</li>
+    } else if (e instanceof SumHolder) {
+      return <li>
+        {e.getSum()} {word} for {e.description}
+        <ul>
+          {e.terms.map((term) => <Derivation word={word} item={term} />)}
+        </ul>
+      </li>;
+    }
+    return <li>Error: Unable to render!</li>;
+  }
+}

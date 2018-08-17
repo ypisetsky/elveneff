@@ -1,8 +1,11 @@
 'use strict';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactTooltip from 'react-tooltip';
+
 import './style.css';
 import Data from './data';
+import {Derivation} from './derivation';
 
 const cultureIndex = 3;
 const popIndex = 4;
@@ -29,6 +32,7 @@ class Widget extends React.Component {
     const data = Data.BuildingData[this.props.title];
     let popHeader = <th>Population</th>;
     const outName = Data.BuildingMeta[this.props.title].Output;
+    const id_prefix = Math.floor(Math.random() * 1000000000000);
     for(let i = 0; i < data.length; i++) {
       const w = data[i][1];
       const h = data[i][2];
@@ -37,7 +41,7 @@ class Widget extends React.Component {
       const cult = data[i][cultureIndex];
       const buildingSpace = w * h;
       const roadSpace = Math.min(w, h) / 2.0;
-      const effectiveCultureCost = Data.getEffectiveCultureDerivation(
+      const effectiveCultureDerivation = Data.getEffectiveCultureDerivation(
         this.props.title,
         i,
         this.props.cultureDensity,
@@ -45,7 +49,9 @@ class Widget extends React.Component {
         this.props.workshopLevel,
         this.props.collectCount,
         this.props.streetCulture,
-      ).getSum();
+      );
+      const effectiveSpaceDerivation = effectiveCultureDerivation.clone();
+      effectiveSpaceDerivation.scaleBy(1/this.props.cultureDensity);
       let popCell = <td>{pop}</td>;
       if (this.props.title == "Residence") {
         popCell = null;
@@ -58,10 +64,17 @@ class Widget extends React.Component {
           <td>{cult}</td>
           {popCell}
           <td>{out}</td>
-          <td>{formatNum(effectiveCultureCost / this.props.cultureDensity)}</td>
+          <td>
+            <a data-tip="Hello" data-for={this.id_prefix + ":" + i}>
+              {formatNum(effectiveCultureDerivation.getSum() / this.props.cultureDensity)}
+            </a>
+            <ReactTooltip place="top" type="light" effect="float" id={this.id_prefix + ":" + i}>
+              <Derivation word="spaces" item={effectiveSpaceDerivation} />
+            </ReactTooltip>
+          </td>
           <td>{formatNum(out / cult)}</td>
           <td>{formatNum(out / (buildingSpace + roadSpace))}</td>
-          <td>{formatNum(out * this.props.cultureDensity / effectiveCultureCost)}</td>
+          <td>{formatNum(out * this.props.cultureDensity / effectiveCultureDerivation.getSum())}</td>
         </tr>
       );
     }

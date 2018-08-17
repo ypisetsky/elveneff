@@ -472,15 +472,23 @@ function getEffectiveCultureDerivation(name, lvl, cultureDensity, residenceLevel
   const streetLen = Math.min(row[1], row[2]) / 2.0
   //const size = row[1] * row[2] + roads;
   const root = new SumHolder(name);
-  root.append(new Value("The building itself", row[1] * row[2] * cultureDensity));
-  root.append(new Value("The culture requirement of the building", row[cultureIndex]));
-  const streets = new SumHolder("Streets");
+  root.append(new Value("the building itself", row[1] * row[2] * cultureDensity));
+  root.append(new Value("the culture requirement of the building", row[cultureIndex]));
+  const streets = new SumHolder("streets");
   root.append(streets);
-  streets.append(new Value("The street itself", streetLen * cultureDensity));
-  streets.append(new Value("The culture from the street", -1 * streetLen * streetCulture));
+  streets.append(new Value("the street itself", streetLen * cultureDensity));
+  streets.append(new Value("the culture from the street", -1 * streetLen * streetCulture));
 
   if (name != "Residence") {
-    const residenceTerm = getEffectiveCultureDerivation("Residence", residenceLevel, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture);
+    const residenceTerm = getEffectiveCultureDerivation(
+      "Residence",
+      residenceLevel,
+      cultureDensity,
+      residenceLevel,
+      wsLevel,
+      collectCount,
+      streetCulture,
+    );
     residenceTerm.scaleBy(
       row[popIndex] / BuildingData.Residence[residenceLevel][outputIndex]
     );
@@ -489,12 +497,21 @@ function getEffectiveCultureDerivation(name, lvl, cultureDensity, residenceLevel
   if (BuildingMeta[name].SuppliesPerOut) {
     let suppliesNeeded = 0;
     let wsOutput = 0;
+    // Count up the supplies used per day and a canonical workshop's production
+    // per day. The ratio is how many workshops we need to support this building.
     for(let time in CollectionOptions[collectCount].Collections) {
       suppliesNeeded += BuildingMeta[name].Production[time] * row[outputIndex] * BuildingMeta[name].SuppliesPerOut * CollectionOptions[collectCount].Collections[time];
-      console.log(wsLevel,BuildingData.Workshop[wsLevel], BuildingMeta.Workshop.Production,CollectionOptions[collectCount].Collections);
       wsOutput += BuildingData.Workshop[wsLevel][outputIndex] * BuildingMeta.Workshop.Production[time] * CollectionOptions[collectCount].Collections[time];
     }
-    const wsTerm = getEffectiveCultureDerivation("Workshop", wsLevel, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture);
+    const wsTerm = getEffectiveCultureDerivation(
+      "Workshop",
+      wsLevel,
+      cultureDensity,
+      residenceLevel,
+      wsLevel,
+      collectCount,
+      streetCulture,
+    );
     wsTerm.scaleBy(suppliesNeeded / wsOutput);
     root.append(wsTerm);
   }
@@ -522,6 +539,6 @@ module.exports = {
   GoodsRatios: GoodsRatios,
   Roads: Roads,
   renderChapter: renderChapter,
-  getEffectiveCultureCost: getEffectiveCultureCost,
-  renderTime: renderTime,
+  getEffectiveCultureDerivation,
+  renderTime,
 }
