@@ -37,7 +37,7 @@ class Widget extends React.Component {
       const cult = data[i][cultureIndex];
       const buildingSpace = w * h;
       const roadSpace = Math.min(w, h) / 2.0;
-      const effectiveCultureCost = Data.getEffectiveCultureCost(
+      const effectiveCultureCost = Data.getEffectiveCultureDerivation(
         this.props.title,
         i,
         this.props.cultureDensity,
@@ -45,7 +45,7 @@ class Widget extends React.Component {
         this.props.workshopLevel,
         this.props.collectCount,
         this.props.streetCulture,
-      );
+      ).getSum();
       let popCell = <td>{pop}</td>;
       if (this.props.title == "Residence") {
         popCell = null;

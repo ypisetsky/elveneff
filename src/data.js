@@ -467,34 +467,6 @@ function renderChapter(chapter) {
   }
 }
 
-function getEffectiveCultureCost(name, lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture) {
-  const row = BuildingData[name][lvl];
-  const roads = Math.min(row[1], row[2]) / 2.0
-  const size = row[1] * row[2] + roads;
-  let result = row[cultureIndex] + size * cultureDensity;
-  if (name != "Residence") {
-    result += row[popIndex] * getEffectiveCultureCost("Residence", residenceLevel, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture) /
-      BuildingData.Residence[residenceLevel][outputIndex];
-  }
-  if (BuildingMeta[name].SuppliesPerOut) {
-    let suppliesNeeded = 0;
-    let wsOutput = 0;
-    for(let time in CollectionOptions[collectCount].Collections) {
-      suppliesNeeded += BuildingMeta[name].Production[time] * row[outputIndex] * BuildingMeta[name].SuppliesPerOut * CollectionOptions[collectCount].Collections[time];
-      console.log(wsLevel,BuildingData.Workshop[wsLevel], BuildingMeta.Workshop.Production,CollectionOptions[collectCount].Collections);
-      wsOutput += BuildingData.Workshop[wsLevel][outputIndex] * BuildingMeta.Workshop.Production[time] * CollectionOptions[collectCount].Collections[time];
-    }
-    const wsCost = getEffectiveCultureCost("Workshop", wsLevel, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture);
-    result += suppliesNeeded / wsOutput * wsCost;
-  }
-  result -= roads * streetCulture; // the roads give us some culture back
-  let ret2 = getEffectiveCultureDerivation(...arguments);
-
-  console.log(name, lvl, ret2.getSum(), result, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture);
-
-  return result;
-}
-
 function getEffectiveCultureDerivation(name, lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture) {
   const row = BuildingData[name][lvl];
   const streetLen = Math.min(row[1], row[2]) / 2.0
@@ -526,7 +498,7 @@ function getEffectiveCultureDerivation(name, lvl, cultureDensity, residenceLevel
     wsTerm.scaleBy(suppliesNeeded / wsOutput);
     root.append(wsTerm);
   }
-  console.log(name, lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture, root);
+  console.log(name, lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture, root, root.getSum());
   return root;
 }
 
