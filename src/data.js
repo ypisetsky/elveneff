@@ -1,11 +1,7 @@
 'use strict';
 
 import {Value, SumHolder} from './derivation';
-
-const cultureIndex = 3;
-const popIndex = 4;
-const outputIndex = 5;
-const chapterIndex = 0;
+import {cultureIndex, popIndex, outputIndex, chapterIndex} from './util';
 
 const BuildingData = {
   Processed: false,
@@ -410,6 +406,7 @@ const BuildingMeta = {
   "Armory (Orcs)": {
     Image: "armory.png",
     Output: "Orcs",
+    LevelOffset: 19, // the first level offset is implied
   },
   "Mercenary Camp": {
     Image: "mercs.png",
@@ -467,11 +464,20 @@ function renderChapter(chapter) {
   }
 }
 
+function convertLevel(name, lvl) {
+  let ret = lvl + 1;
+  const offset = BuildingMeta[name].LevelOffset;
+  if (offset) {
+    return ret + offset;
+  }
+  return ret;
+}
+
 function getEffectiveCultureDerivation(name, lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture) {
   const row = BuildingData[name][lvl];
   const streetLen = Math.min(row[1], row[2]) / 2.0
   //const size = row[1] * row[2] + roads;
-  const root = new SumHolder(name);
+  const root = new SumHolder(name + " (Level " + convertLevel(name, lvl) + ")");
   root.append(new Value("the building itself", row[1] * row[2] * cultureDensity));
   root.append(new Value("the culture requirement of the building", row[cultureIndex]));
   const streets = new SumHolder("streets");

@@ -1,6 +1,8 @@
 'use strict';
 import React from 'react';
 
+import {formatNum} from './util';
+
 export class SumHolder {
   constructor(description) {
     this.terms = [];
@@ -59,10 +61,10 @@ export class Derivation extends React.Component {
     const e = this.props.item;
     const word = this.props.word;
     if (e instanceof Value) {
-      return <li>{e.value} {word} for {e.description}</li>
+      return <li>{formatNum(e.value)} {word} for {e.description}</li>
     } else if (e instanceof SumHolder) {
       return <li>
-        {e.getSum()} {word} for {e.description}
+        {formatNum(e.getSum())} {word} for {e.description}
         <ul>
           {e.terms.map((term) => <Derivation word={word} item={term} />)}
         </ul>

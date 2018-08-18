@@ -3,15 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 import Data from './data';
-
-const outputIndex = 5;
-
-function formatNum(num) {
-  if (num > 1000) {
-    return num.toFixed();
-  }
-  return num.toPrecision(3);
-}
+import {formatNum, outputIndex} from './util';
 
 class ResidenceCultureChecker extends React.Component {
   constructor(props) {
@@ -25,7 +17,7 @@ class ResidenceCultureChecker extends React.Component {
   }
   render() {
     let culture = parseInt(this.state.cult);
-    let culturePerResidence = Data.getEffectiveCultureCost(
+    let culturePerResidence = Data.getEffectiveCultureDerivation(
       "Residence",
       this.props.residenceLevel,
       this.props.cultureDensity,
@@ -33,7 +25,7 @@ class ResidenceCultureChecker extends React.Component {
       this.props.residenceLevel, // ignored
       1, // collections per day; doesn't really matter
       this.props.streetCulture,
-    );
+    ).getSum();
     culture += culturePerResidence * this.state.pop /
       Data.BuildingData.Residence[this.props.residenceLevel][outputIndex];
     console.log(this.state, this.props);
@@ -59,7 +51,7 @@ class ResidenceCultureChecker extends React.Component {
         </tr>
         <tr>
           <td>Effective Culture</td>
-          <td>{culture}</td>
+          <td>{formatNum(culture)}</td>
         </tr>
         <tr>
           <td>Culture Per Tile</td>

@@ -6,22 +6,12 @@ import ReactTooltip from 'react-tooltip';
 import './style.css';
 import Data from './data';
 import {Derivation} from './derivation';
-
-const cultureIndex = 3;
-const popIndex = 4;
-const outputIndex = 5;
-const chapterIndex = 0;
-
-function formatNum(num) {
-  if (num > 1000) {
-    return num.toFixed();
-  }
-  return num.toPrecision(3);
-}
+import {formatNum, cultureIndex, popIndex, outputIndex, chapterIndex} from './util';
 
 class Widget extends React.Component {
   constructor(props) {
     super(props);
+    this.id_prefix = Math.floor(Math.random() * 1000000000000);
   }
 
   renderBody() {
@@ -32,7 +22,6 @@ class Widget extends React.Component {
     const data = Data.BuildingData[this.props.title];
     let popHeader = <th>Population</th>;
     const outName = Data.BuildingMeta[this.props.title].Output;
-    const id_prefix = Math.floor(Math.random() * 1000000000000);
     for(let i = 0; i < data.length; i++) {
       const w = data[i][1];
       const h = data[i][2];
@@ -68,8 +57,10 @@ class Widget extends React.Component {
             <a data-tip="Hello" data-for={this.id_prefix + ":" + i}>
               {formatNum(effectiveCultureDerivation.getSum() / this.props.cultureDensity)}
             </a>
-            <ReactTooltip place="top" type="light" effect="float" id={this.id_prefix + ":" + i}>
-              <Derivation word="spaces" item={effectiveSpaceDerivation} />
+            <ReactTooltip place="top" type="dark" effect="float" id={this.id_prefix + ":" + i}>
+              <ul class="tooltip">
+                <Derivation word="spaces" item={effectiveSpaceDerivation} />
+              </ul>
             </ReactTooltip>
           </td>
           <td>{formatNum(out / cult)}</td>
