@@ -1,5 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
  module.exports = {
    entry: "./src/main.js",
@@ -22,16 +23,21 @@ const webpack = require("webpack");
        }
      ],
    },
+
   output: {
     path: path.resolve(__dirname, "dist/"),
-    publicPath: "/dist/",
     filename: "bundle.js"
   },
   devServer: {
-    contentBase: path.join(__dirname, "public/"),
     port: 3000,
-    publicPath: "http://localhost:3000/dist/",
+    publicPath: "http://localhost:3000/",
     hotOnly: true
   },
-  plugins: [ new webpack.HotModuleReplacementPlugin() ]
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      title: "Hello 123",
+      template: "src/indextemplate.html",
+    }),
+  ]
 }
