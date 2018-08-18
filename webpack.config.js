@@ -15,10 +15,13 @@ const webpack = require("webpack");
        {
          test: /\.css$/,
          use: [ 'style-loader', 'css-loader' ]
+       },
+       {
+         test: /\.png$/,
+         use: ['file-loader'],
        }
-     ]
+     ],
    },
-  resolve: { extensions: ['*', '.js', '.jsx'] },
   output: {
     path: path.resolve(__dirname, "dist/"),
     publicPath: "/dist/",

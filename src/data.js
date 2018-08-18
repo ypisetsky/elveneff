@@ -2,6 +2,7 @@
 
 import {Value, SumHolder} from './derivation';
 import {cultureIndex, popIndex, outputIndex, chapterIndex} from './util';
+import Img from './images';
 
 const BuildingData = {
   Processed: false,
@@ -360,11 +361,11 @@ const CollectionOptions = {
 
 const BuildingMeta = {
   Residence: {
-    Image: "residence.png",
+    Image: Img.Residence,
     Output: "Pop",
   },
   Workshop: {
-    Image: "workshop.png",
+    Image: Img.Workshop,
     Output: "Sup",
     Production: {
       5: 0.153,
@@ -376,25 +377,25 @@ const BuildingMeta = {
     },
   },
   Marble: {
-    Image: "marble.png",
+    Image: Img.Marble,
     Output: "Marble",
     Production: GoodsRatios,
     SuppliesPerOut: 2,
   },
   Steel: {
-    Image: "steel.png",
+    Image: Img.Steel,
     Output: "Steel",
     Production: GoodsRatios,
     SuppliesPerOut: 2,
   },
   Crystal: {
-    Image: "crystal.png",
+    Image: Img.Crystal,
     Output: "Crystal",
     Production: GoodsRatios,
     SuppliesPerOut: 8,
   },
   Elixir: {
-    Image: "elixir.png",
+    Image: Img.Elixir,
     Output: "Elixir",
     Production: GoodsRatios,
     SuppliesPerOut: 32,
