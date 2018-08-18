@@ -36,7 +36,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      title: "Hello 123",
+      title: "Elvenar Calculator",
       template: "src/indextemplate.html",
     }),
   ]

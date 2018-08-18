@@ -14,7 +14,7 @@ console.log(Data.BuildingData);
 class WidgetOrSelectorContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {selectedBuilding: "Residence"};
+    this.state = {selectedBuilding: props.defaultBuilding};
   }
   render() {
     if (!this.state.selectedBuilding) {
@@ -62,12 +62,14 @@ class MainWindow extends React.Component {
         <tbody>
           <tr>
             <WidgetOrSelectorContainer key="left"
+              defaultBuilding={"Residence"}
               cultureDensity={this.props.cultureDensity}
               residenceLevel={this.props.residenceLevel}
               workshopLevel={this.props.workshopLevel}
               collectCount={this.props.collectCount}
               streetCulture={this.props.streetCulture} />
             <WidgetOrSelectorContainer key="right"
+              defaultBuilding={"Workshop"}
               cultureDensity={this.props.cultureDensity}
               residenceLevel={this.props.residenceLevel}
               workshopLevel={this.props.workshopLevel}
