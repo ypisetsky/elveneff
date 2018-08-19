@@ -29,7 +29,7 @@ class ResidenceCultureChecker extends React.Component {
     culture += culturePerResidence * this.state.pop /
       Data.BuildingData.Residence[this.props.residenceLevel][outputIndex];
     console.log(this.state, this.props);
-    return <td class="widget">
+    return <td className="widget">
       <table>
         <tr>
           <td>Size</td>

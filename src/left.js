@@ -56,6 +56,16 @@ class LeftNav extends React.Component {
 
 
     return <form>
+      <b>Select Race</b>
+      <br />
+      <input type="radio" id="raceElves" name="race" value="Elves" checked={this.props.race == "Elves"}
+        onChange={this.props.onChange} />
+      <label for="raceElves">Elves</label>
+      <br />
+      <input type="radio" id="raceHumans" name="race" value="Humans" checked={this.props.race == "Humans"}
+        onChange={this.props.onChange} />
+      <label for="raceHumans">Humans</label>
+      <br />
       <b>Select Chapter</b>
       <select onChange={this.props.onChapterSelect}>
         <option value={null} selected={true}>--- Select a Chapter ---</option>

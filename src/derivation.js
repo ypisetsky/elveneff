@@ -66,7 +66,7 @@ export class Derivation extends React.Component {
       return <li>
         {formatNum(e.getSum())} {word} for {e.description}
         <ul>
-          {e.terms.map((term) => <Derivation word={word} item={term} />)}
+          {e.terms.map((term) => <Derivation word={word} item={term} key={term.description} />)}
         </ul>
       </li>;
     }

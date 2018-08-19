@@ -9,9 +9,6 @@ import Widget from './widget';
 import ResidenceCultureChecker from './rescult';
 import LeftNav from './left';
 
-console.log(Data.BuildingData);
-
-
 class WidgetOrSelectorContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +21,7 @@ class WidgetOrSelectorContainer extends React.Component {
         cultureDensity={this.props.cultureDensity}
         residenceLevel={this.props.residenceLevel}
         streetCulture={this.props.streetCulture}
+        race={this.props.race}
       />;
     } else if (this.state.selectedBuilding){
       child = <Widget
@@ -31,12 +29,13 @@ class WidgetOrSelectorContainer extends React.Component {
         cultureDensity={this.props.cultureDensity}
         residenceLevel={this.props.residenceLevel}
         streetCulture={this.props.streetCulture}
+        race={this.props.race}
         workshopLevel={this.props.workshopLevel}
         collectCount={this.props.collectCount} />;
     }
     const buildings = [];
     for (var name in Data.BuildingMeta) {
-      buildings.push(<option value={name}>{name}</option>);
+      buildings.push(<option value={name} key={name}>{name}</option>);
     }
     return <td>
       <select onChange={(event) => { if (event.target.value) this.setState({selectedBuilding: event.target.value})} }>
@@ -64,6 +63,7 @@ class MainWindow extends React.Component {
               residenceLevel={this.props.residenceLevel}
               workshopLevel={this.props.workshopLevel}
               collectCount={this.props.collectCount}
+              race={this.props.race}
               streetCulture={this.props.streetCulture} />
             <WidgetOrSelectorContainer key="right"
               defaultBuilding={"Workshop"}
@@ -71,6 +71,7 @@ class MainWindow extends React.Component {
               residenceLevel={this.props.residenceLevel}
               workshopLevel={this.props.workshopLevel}
               collectCount={this.props.collectCount}
+              race={this.props.race}
               streetCulture={this.props.streetCulture} />
           </tr>
         </tbody>
@@ -88,11 +89,8 @@ class ElvenarCalculator extends React.Component {
       residenceLevel: 18, // really level 19, but 0 indexing
       workshopLevel: 18,
       streetCulture: 49,
+      race: "Elves",
     };
-    //this.setResidenceLevel = this.setResidenceLevel.bind(this);
-    //this.setWorkshopLevel = this.setWorkshopLevel.bind(this);
-    //this.setCollectCount = this.setCollectCount.bind(this);
-    //this.setStreetCulture = this.setStreetCulture.bind(this);*/
     this.quickSelect = this.quickSelect.bind(this);
     this.setProp = this.setProp.bind(this);
   }
@@ -104,6 +102,7 @@ class ElvenarCalculator extends React.Component {
       workshopLevel={this.state.workshopLevel}
       collectCount={this.state.collectCount}
       streetCulture={this.state.streetCulture}
+      race={this.state.race}
     />;
     const left = <LeftNav parent={this}
       cultureDensity={this.state.cultureDensity}
@@ -111,6 +110,7 @@ class ElvenarCalculator extends React.Component {
       workshopLevel={this.state.workshopLevel}
       collectCount={this.state.collectCount}
       streetCulture={this.state.streetCulture}
+      race={this.state.race}
       onChapterSelect={this.quickSelect}
       onChange={this.setProp}
     />;

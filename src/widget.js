@@ -59,7 +59,7 @@ class Widget extends React.Component {
               {formatNum(effectiveCultureDerivation.getSum() / this.props.cultureDensity)}
             </a>
             <ReactTooltip place="top" type="dark" effect="float" id={this.id_prefix + ":" + i}>
-              <ul class="tooltip">
+              <ul className="tooltip">
                 <Derivation word="spaces" item={effectiveSpaceDerivation} />
               </ul>
             </ReactTooltip>
