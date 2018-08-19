@@ -436,35 +436,6 @@ const Roads = {
   176: { Name: "Eternal St", Chapter: 12},
 }
 
-function renderChapter(chapter) {
-  switch(chapter) {
-    case 1:
-      return 'I';
-    case 2:
-      return 'II';
-    case 3:
-      return 'III';
-    case 4:
-      return 'IV';
-    case 5:
-      return 'V';
-    case 6:
-      return 'Dwarves';
-    case 7:
-      return 'Fairies';
-    case 8:
-      return 'Orcs';
-    case 9:
-      return 'WdElves';
-    case 10:
-      return 'Sorcerers';
-    case 11:
-      return 'Halflings';
-    case 12:
-      return 'Elemntls';
-  }
-}
-
 function convertLevel(name, lvl) {
   let ret = lvl + 1;
   const offset = BuildingMeta[name].LevelOffset;
@@ -526,26 +497,11 @@ function getEffectiveCultureDerivation(name, lvl, cultureDensity, residenceLevel
   return root;
 }
 
-function renderTime(minutes) {
-  const renderString = (num, label) => {
-    if (num == 1) {
-      return "1 " + label;
-    } return num + " " + label + "s";
-  }
-  if (minutes < 60) {
-    return renderString(minutes, "minute");
-  } else if (minutes < 1440) {
-    return renderString(minutes / 60., "hour");
-  } else return renderString(minutes / 1440., "day");
-}
-
 module.exports = {
   BuildingData: BuildingData,
   BuildingMeta: BuildingMeta,
   CollectionOptions: CollectionOptions,
   GoodsRatios: GoodsRatios,
   Roads: Roads,
-  renderChapter: renderChapter,
   getEffectiveCultureDerivation,
-  renderTime,
 }

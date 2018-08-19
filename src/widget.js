@@ -6,7 +6,8 @@ import ReactTooltip from 'react-tooltip';
 import './style.css';
 import Data from './data';
 import {Derivation} from './derivation';
-import {formatNum, cultureIndex, popIndex, outputIndex, chapterIndex} from './util';
+import {formatNum, cultureIndex, popIndex, outputIndex, chapterIndex, renderChapter}
+  from './util';
 
 class Widget extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class Widget extends React.Component {
       rows.push(
         <tr key={i}>
           <td>{data[i][1]}x{data[i][2]}</td>
-          <td>{Data.renderChapter(data[i][chapterIndex])}</td>
+          <td>{renderChapter(data[i][chapterIndex])}</td>
           <td>{cult}</td>
           {popCell}
           <td>{out}</td>

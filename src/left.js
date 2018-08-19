@@ -1,7 +1,9 @@
 'use strict';
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import Data from './data';
+import {renderChapter} from './util';
 
 class LeftNav extends React.Component {
   render() {
@@ -10,7 +12,7 @@ class LeftNav extends React.Component {
     for (let i = 0; i < resData.length; i++) {
       resOptions.push(
         <option value={i} key={i}>
-          Level {i+1} ({Data.renderChapter(resData[i][0])})
+          Level {i+1} ({renderChapter(resData[i][0])})
         </option>
       );
     }
@@ -20,7 +22,7 @@ class LeftNav extends React.Component {
     for (let i = 0; i < wsData.length; i++) {
       wsOptions.push(
         <option value={i} key={i}>
-          Level {i+1} ({Data.renderChapter(wsData[i][0])})
+          Level {i+1} ({renderChapter(wsData[i][0])})
         </option>
       );
     }
@@ -39,7 +41,7 @@ class LeftNav extends React.Component {
     for (let i in Data.Roads) {
       streetOpts.push(
         <option value={i} key={i}>
-          {Data.Roads[i].Name}({Data.renderChapter(Data.Roads[i].Chapter)})
+          {Data.Roads[i].Name}({renderChapter(Data.Roads[i].Chapter)})
         </option>
       );
     }
@@ -47,7 +49,7 @@ class LeftNav extends React.Component {
     const chapters = [];
     for(let i = 1; i <= 12; i++) {
       chapters.push(
-        <option value={i} key={i}>Chapter {i} ({Data.renderChapter(i)})</option>
+        <option value={i} key={i}>Chapter {i} ({renderChapter(i)})</option>
       );
     }
 
