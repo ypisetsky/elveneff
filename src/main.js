@@ -17,41 +17,37 @@ class WidgetOrSelectorContainer extends React.Component {
     this.state = {selectedBuilding: props.defaultBuilding};
   }
   render() {
-    if (!this.state.selectedBuilding) {
-      return this.renderSelector();
-    } else if (this.state.selectedBuilding == "rescult"){
-      return <ResidenceCultureChecker
+    let child = undefined;
+    if (this.state.selectedBuilding == "rescult"){
+      child = <ResidenceCultureChecker
         cultureDensity={this.props.cultureDensity}
         residenceLevel={this.props.residenceLevel}
         streetCulture={this.props.streetCulture}
-        />
-    } else {
-      return <td>
-        <button onClick={() => this.setState({selectedBuilding: null})}>Select Another Building</button>
-        <br />
-        <Widget
-          title={this.state.selectedBuilding}
-          cultureDensity={this.props.cultureDensity}
-          residenceLevel={this.props.residenceLevel}
-          streetCulture={this.props.streetCulture}
-          workshopLevel={this.props.workshopLevel}
-          collectCount={this.props.collectCount} />
-      </td>;
+      />;
+    } else if (this.state.selectedBuilding){
+      child = <Widget
+        title={this.state.selectedBuilding}
+        cultureDensity={this.props.cultureDensity}
+        residenceLevel={this.props.residenceLevel}
+        streetCulture={this.props.streetCulture}
+        workshopLevel={this.props.workshopLevel}
+        collectCount={this.props.collectCount} />;
     }
-  }
-
-  renderSelector() {
     const buildings = [];
-
     for (var name in Data.BuildingMeta) {
       buildings.push(<option value={name}>{name}</option>);
     }
-    return <td className="widget"><select onChange={(event) => this.setState({selectedBuilding: event.target.value})}>
-      <option value={null}>Select a Building</option>
-      <option value="rescult">Residence/Culture Calculator</option>
-      {buildings}
-    </select></td>;
+    return <td>
+      <select onChange={(event) => { if (event.target.value) this.setState({selectedBuilding: event.target.value})} }>
+        <option value={null}>Select a Building</option>
+        <option value="rescult">Residence/Culture Calculator</option>
+        {buildings}
+      </select>
+      <br />
+      {child}
+    </td>;
   }
+
 }
 
 
