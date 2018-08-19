@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import ReactTooltip from 'react-tooltip';
 
 import './style.css';
+import Building from './building';
 import Data from './data';
 import {Derivation} from './derivation';
 import {formatNum, cultureIndex, popIndex, outputIndex, chapterIndex, renderChapter}
@@ -20,15 +21,15 @@ class Widget extends React.Component {
     if (!(this.props.title in Data.BuildingMeta)) {
       return <div>Error: no data on {this.props.title}</div>;
     }
-    const data = Data.BuildingData[this.props.title];
+    const data = new Building(this.props.title, "Elves");
     let popHeader = <th>Population</th>;
-    const outName = Data.BuildingMeta[this.props.title].Output;
-    for(let i = 0; i < data.length; i++) {
-      const w = data[i][1];
-      const h = data[i][2];
-      const out = data[i][outputIndex];
-      const pop = data[i][popIndex];
-      const cult = data[i][cultureIndex];
+    const outName = data.Output;
+    for(let i = data.getMinLevel(); i <= data.getMaxLevel(); i++) {
+      const w = data.getWidth(i);
+      const h = data.getHeight(i);
+      const out = data.getOutput(i);
+      const pop = data.getPop(i);
+      const cult = data.getCulture(i);
       const buildingSpace = w * h;
       const roadSpace = Math.min(w, h) / 2.0;
       const effectiveCultureDerivation = Data.getEffectiveCultureDerivation(
@@ -49,8 +50,8 @@ class Widget extends React.Component {
       }
       rows.push(
         <tr key={i}>
-          <td>{data[i][1]}x{data[i][2]}</td>
-          <td>{renderChapter(data[i][chapterIndex])}</td>
+          <td>{w}x{h}</td>
+          <td>{renderChapter(data.getChapter(i))}</td>
           <td>{cult}</td>
           {popCell}
           <td>{out}</td>
