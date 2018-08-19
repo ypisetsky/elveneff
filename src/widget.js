@@ -32,8 +32,7 @@ class Widget extends React.Component {
       const cult = data.getCulture(i);
       const buildingSpace = w * h;
       const roadSpace = Math.min(w, h) / 2.0;
-      const effectiveCultureDerivation = Data.getEffectiveCultureDerivation(
-        this.props.title,
+      const effectiveCultureDerivation = data.getEffectiveCultureDerivation(
         i,
         this.props.cultureDensity,
         this.props.residenceLevel,

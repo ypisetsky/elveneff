@@ -1,7 +1,6 @@
 'use strict';
 
-import {Value, SumHolder} from './derivation';
-import {cultureIndex, popIndex, outputIndex, chapterIndex} from './util';
+import {cultureIndex, popIndex, outputIndex} from './util';
 import Img from './images';
 
 const BuildingData = {
@@ -445,63 +444,10 @@ function convertLevel(name, lvl) {
   return ret;
 }
 
-function getEffectiveCultureDerivation(name, lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture) {
-  const row = BuildingData[name][lvl];
-  const streetLen = Math.min(row[1], row[2]) / 2.0
-  //const size = row[1] * row[2] + roads;
-  const root = new SumHolder(name + " (Level " + convertLevel(name, lvl) + ")");
-  root.append(new Value("the building itself", row[1] * row[2] * cultureDensity));
-  root.append(new Value("the culture requirement of the building", row[cultureIndex]));
-  const streets = new SumHolder("streets");
-  root.append(streets);
-  streets.append(new Value("the street itself", streetLen * cultureDensity));
-  streets.append(new Value("the culture from the street", -1 * streetLen * streetCulture));
-
-  if (name != "Residence") {
-    const residenceTerm = getEffectiveCultureDerivation(
-      "Residence",
-      residenceLevel,
-      cultureDensity,
-      residenceLevel,
-      wsLevel,
-      collectCount,
-      streetCulture,
-    );
-    residenceTerm.scaleBy(
-      row[popIndex] / BuildingData.Residence[residenceLevel][outputIndex]
-    );
-    root.append(residenceTerm);
-  }
-  if (BuildingMeta[name].SuppliesPerOut) {
-    let suppliesNeeded = 0;
-    let wsOutput = 0;
-    // Count up the supplies used per day and a canonical workshop's production
-    // per day. The ratio is how many workshops we need to support this building.
-    for(let time in CollectionOptions[collectCount].Collections) {
-      suppliesNeeded += BuildingMeta[name].Production[time] * row[outputIndex] * BuildingMeta[name].SuppliesPerOut * CollectionOptions[collectCount].Collections[time];
-      wsOutput += BuildingData.Workshop[wsLevel][outputIndex] * BuildingMeta.Workshop.Production[time] * CollectionOptions[collectCount].Collections[time];
-    }
-    const wsTerm = getEffectiveCultureDerivation(
-      "Workshop",
-      wsLevel,
-      cultureDensity,
-      residenceLevel,
-      wsLevel,
-      collectCount,
-      streetCulture,
-    );
-    wsTerm.scaleBy(suppliesNeeded / wsOutput);
-    root.append(wsTerm);
-  }
-  console.log(name, lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture, root, root.getSum());
-  return root;
-}
-
 module.exports = {
   BuildingData: BuildingData,
   BuildingMeta: BuildingMeta,
   CollectionOptions: CollectionOptions,
   GoodsRatios: GoodsRatios,
   Roads: Roads,
-  getEffectiveCultureDerivation,
 }

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import './style.css';
 
 import Data from './data';
+import Building from './building';
 import Widget from './widget';
 import ResidenceCultureChecker from './rescult';
 import LeftNav from './left';
@@ -128,14 +129,16 @@ class ElvenarCalculator extends React.Component {
       return;
     }
     const chapter = event.target.value ;
-    for (let i = Data.BuildingData.Residence.length - 1; i >= 0; i--) {
-      if (Data.BuildingData.Residence[i][0] <= chapter) {
+    const res = new Building("Residence", "Elves");
+    for (let i = res.getMaxLevel(); i >= res.getMinLevel(); i--) {
+      if (res.getChapter(i) <= chapter) {
         this.setState({residenceLevel: i});
         break;
       }
     }
-    for (let i = Data.BuildingData.Workshop.length - 1; i >= 0; i--) {
-      if (Data.BuildingData.Workshop[i][0] <= chapter) {
+    const ws = new Building("Workshop", "Elves");
+    for (let i = ws.getMaxLevel(); i >= ws.getMinLevel(); i--) {
+      if (ws.getChapter(i) <= chapter) {
         this.setState({workshopLevel: i});
         break;
       }

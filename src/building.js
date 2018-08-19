@@ -1,10 +1,11 @@
 'use strict';
 import Data from './data';
 import Images from './images';
+import {Value, SumHolder} from './derivation';
 
 export const cultureIndex = 3;
 export const popIndex = 4;
-export const outputIndex = 5;
+const outputIndex = 5;
 const chapterIndex = 0;
 
 // Wrapper for building information
@@ -27,16 +28,16 @@ export default class Building {
     if (meta.SuppliesPerOut) {
       this.UsesSupplies = true;
       this.SuppliesPerOut = meta.SuppliesPerOut;
-      if (meta.Production) {
-        this.Production = meta.Production;
-      } else {
-        this.Production = Data.GoodsRatios;
-      }
+    }
+    if (meta.Production) {
+      this.Production = meta.Production;
+    } else {
+      this.Production = Data.GoodsRatios;
     }
   }
 
   getMinLevel() {
-    return 0;
+    return 1;
   }
 
   getMaxLevel() {
@@ -70,4 +71,61 @@ export default class Building {
   getOutput(level) {
     return this._getRow(level)[outputIndex];
   }
+
+  getEffectiveCultureDerivation(lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture) {
+    const streetLen = Math.min(this.getWidth(lvl), this.getHeight(lvl)) / 2.0
+    //const size = row[1] * row[2] + roads;
+    const root = new SumHolder(this.name + " (Level " + lvl + ")");
+    root.append(new Value("the building itself", this.getWidth(lvl) * this.getHeight(lvl) * cultureDensity));
+    root.append(new Value("the culture requirement of the building", this.getCulture(lvl)));
+    const streets = new SumHolder("streets");
+    root.append(streets);
+    streets.append(new Value("the street itself", streetLen * cultureDensity));
+    streets.append(new Value("the culture from the street", -1 * streetLen * streetCulture));
+
+    if (this.Name != "Residence") {
+      const res = new Building("Residence", this.Race);
+      const residenceTerm = res.getEffectiveCultureDerivation(
+        residenceLevel,
+        cultureDensity,
+        residenceLevel,
+        wsLevel,
+        collectCount,
+        streetCulture,
+      );
+      residenceTerm.scaleBy(
+        this.getPop(lvl) / res.getOutput(residenceLevel),
+      );
+      root.append(residenceTerm);
+    }
+    if (this.UsesSupplies) {
+      let suppliesNeeded = 0;
+      let wsOutput = 0;
+      const ws = new Building("Workshop", this.Race);
+      // Count up the supplies used per day and a canonical workshop's production
+      // per day. The ratio is how many workshops we need to support this building.
+      for(let time in Data.CollectionOptions[collectCount].Collections) {
+        suppliesNeeded += this.Production[time] * this.getOutput(lvl) *
+          this.SuppliesPerOut * Data.CollectionOptions[collectCount].Collections[time];
+        if (!Data.CollectionOptions[collectCount].Collections) {
+          console.log(Data.CollectionOptions);
+        }
+        console.log(ws.Production);
+        wsOutput += ws.getOutput(wsLevel) * ws.Production[time] *
+          Data.CollectionOptions[collectCount].Collections[time];
+      }
+      const wsTerm = ws.getEffectiveCultureDerivation(
+        wsLevel,
+        cultureDensity,
+        residenceLevel,
+        wsLevel,
+        collectCount,
+        streetCulture,
+      );
+      wsTerm.scaleBy(suppliesNeeded / wsOutput);
+      root.append(wsTerm);
+    }
+    return root;
+  }
+
 }

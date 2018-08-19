@@ -3,26 +3,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Data from './data';
+import Building from './building';
 import {renderChapter} from './util';
 
 class LeftNav extends React.Component {
   render() {
     const resOptions= [];
-    const resData = Data.BuildingData["Residence"];
-    for (let i = 0; i < resData.length; i++) {
+    const resData = new Building("Residence", "Elves");
+    for (let i = resData.getMinLevel(); i <= resData.getMaxLevel(); i++) {
       resOptions.push(
         <option value={i} key={i}>
-          Level {i+1} ({renderChapter(resData[i][0])})
+          Level {i} ({renderChapter(resData.getChapter(i))})
         </option>
       );
     }
 
     const wsOptions= [];
-    const wsData = Data.BuildingData["Workshop"];
-    for (let i = 0; i < wsData.length; i++) {
+    const wsData = new Building("Workshop", "Elves");
+    for (let i = wsData.getMinLevel(); i <= wsData.getMaxLevel(); i++) {
       wsOptions.push(
         <option value={i} key={i}>
-          Level {i+1} ({renderChapter(wsData[i][0])})
+          Level {i} ({renderChapter(wsData.getChapter(i))})
         </option>
       );
     }
