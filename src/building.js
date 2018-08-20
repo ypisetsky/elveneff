@@ -1,5 +1,6 @@
 'use strict';
 import Data from './data';
+import HumanData from './humandata';
 import Images from './images';
 import {Value, SumHolder} from './derivation';
 
@@ -13,7 +14,10 @@ class Building {
   constructor(name, race) {
     this.Name = name;
     this.Race = race;
-    this.Levels = Data.BuildingData[name];
+    this.Levels = Data.ElvesData[name];
+    if (this.Race == "Humans" && HumanData[name]) {
+      this.Levels = HumanData[name];
+    }
     const meta = Data.BuildingMeta[name] || {};
     if (!this.Levels) {
       this.Valid = false;

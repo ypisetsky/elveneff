@@ -3,7 +3,7 @@
 import {cultureIndex, popIndex, outputIndex} from './util';
 import Img from './images';
 
-const BuildingData = {
+const ElvesData = {
   Processed: false,
   Residence: [
     [ 1,2,2,0,   0,31],
@@ -292,9 +292,9 @@ const BuildingData = {
   ]
 }
 
-if (!BuildingData.Processed) {
-  for (let building in BuildingData) {
-    const data = BuildingData[building];
+if (!ElvesData.Processed) {
+  for (let building in ElvesData) {
+    const data = ElvesData[building];
     for(let i = 1; i < data.length; i++) {
       if (building == "Residence") {
         // For some reason the wiki only gives marginal increase for residences
@@ -305,7 +305,7 @@ if (!BuildingData.Processed) {
       data[i][popIndex] += data[i-1][popIndex];
     }
   }
-  BuildingData.Processed = true;
+  ElvesData.Processed = true;
 }
 
 const GoodsRatios = {
@@ -432,9 +432,9 @@ const Roads = {
 }
 
 module.exports = {
-  BuildingData: BuildingData,
-  BuildingMeta: BuildingMeta,
-  CollectionOptions: CollectionOptions,
-  GoodsRatios: GoodsRatios,
-  Roads: Roads,
+  BuildingMeta,
+  CollectionOptions,
+  GoodsRatios,
+  Roads,
+  ElvesData
 }
