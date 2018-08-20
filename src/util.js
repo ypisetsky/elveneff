@@ -38,5 +38,7 @@ export function renderChapter(chapter) {
       return 'Halflings';
     case 12:
       return 'Elemntls';
+    case 13:
+      return 'Amuni';
   }
 }
