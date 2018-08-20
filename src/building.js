@@ -12,14 +12,14 @@ const chapterIndex = 0;
 // Wrapper for building information
 class Building {
   constructor(name, race) {
-    this.Name = name;
-    this.Race = race;
-    this.Levels = Data.ElvesData[name];
-    if (this.Race == "Humans" && HumanData[name]) {
-      this.Levels = HumanData[name];
+    this.name = name;
+    this.race = race;
+    this.levels = Data.ElvesData[name];
+    if (this.race == "Humans" && HumanData[name]) {
+      this.levels = HumanData[name];
     }
     const meta = Data.BuildingMeta[name] || {};
-    if (!this.Levels) {
+    if (!this.levels) {
       this.Valid = false;
       return;
     }
@@ -53,11 +53,11 @@ class Building {
   }
 
   getMaxLevel() {
-    return this.getMinLevel() + this.Levels.length - 1;
+    return this.getMinLevel() + this.levels.length - 1;
   }
 
   _getRow(level) {
-    return this.Levels[level - this.getMinLevel()];
+    return this.levels[level - this.getMinLevel()];
   }
 
   getChapter(level) {
@@ -95,8 +95,8 @@ class Building {
     streets.append(new Value("the street itself", streetLen * cultureDensity));
     streets.append(new Value("the culture from the street", -1 * streetLen * streetCulture));
 
-    if (this.Name != "Residence") {
-      const res = getBuilding("Residence", this.Race);
+    if (this.name != "Residence") {
+      const res = getBuilding("Residence", this.race);
       const residenceTerm = res.getEffectiveCultureDerivation(
         residenceLevel,
         cultureDensity,
@@ -113,7 +113,7 @@ class Building {
     if (this.UsesSupplies) {
       let suppliesNeeded = 0;
       let wsOutput = 0;
-      const ws = getBuilding("Workshop", this.Race);
+      const ws = getBuilding("Workshop", this.race);
       // Count up the supplies used per day and a canonical workshop's production
       // per day. The ratio is how many workshops we need to support this building.
       for(let time in Data.CollectionOptions[collectCount].Collections) {
