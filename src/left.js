@@ -9,7 +9,7 @@ import {renderChapter} from './util';
 class LeftNav extends React.Component {
   render() {
     const resOptions= [];
-    const resData = new Building("Residence", "Elves");
+    const resData = Building("Residence", "Elves");
     for (let i = resData.getMinLevel(); i <= resData.getMaxLevel(); i++) {
       resOptions.push(
         <option value={i} key={i}>
@@ -19,7 +19,7 @@ class LeftNav extends React.Component {
     }
 
     const wsOptions= [];
-    const wsData = new Building("Workshop", "Elves");
+    const wsData = Building("Workshop", "Elves");
     for (let i = wsData.getMinLevel(); i <= wsData.getMaxLevel(); i++) {
       wsOptions.push(
         <option value={i} key={i}>
@@ -60,11 +60,11 @@ class LeftNav extends React.Component {
       <br />
       <input type="radio" id="raceElves" name="race" value="Elves" checked={this.props.race == "Elves"}
         onChange={this.props.onChange} />
-      <label for="raceElves">Elves</label>
+      <label htmlFor="raceElves">Elves</label>
       <br />
       <input type="radio" id="raceHumans" name="race" value="Humans" checked={this.props.race == "Humans"}
         onChange={this.props.onChange} />
-      <label for="raceHumans">Humans</label>
+      <label htmlFor="raceHumans">Humans</label>
       <br />
       <b>Select Chapter</b>
       <select onChange={this.props.onChapterSelect}>

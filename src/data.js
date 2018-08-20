@@ -360,11 +360,9 @@ const CollectionOptions = {
 
 const BuildingMeta = {
   Residence: {
-    Image: Img.Residence,
     Output: "Pop",
   },
   Workshop: {
-    Image: Img.Workshop,
     Output: "Sup",
     Production: {
       5: 0.153,
@@ -376,9 +374,7 @@ const BuildingMeta = {
     },
   },
   Marble: {
-    Image: Img.Marble,
     Output: "Marble",
-    Production: GoodsRatios,
     SuppliesPerOut: 2,
   },
   Steel: {
@@ -433,15 +429,6 @@ const Roads = {
   117: { Name: "Lore St.", Chapter: 10},
   144: { Name: "Country Ln", Chapter: 11},
   176: { Name: "Eternal St", Chapter: 12},
-}
-
-function convertLevel(name, lvl) {
-  let ret = lvl + 1;
-  const offset = BuildingMeta[name].LevelOffset;
-  if (offset) {
-    return ret + offset;
-  }
-  return ret;
 }
 
 module.exports = {

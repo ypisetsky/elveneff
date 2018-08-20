@@ -9,12 +9,17 @@ const outputIndex = 5;
 const chapterIndex = 0;
 
 // Wrapper for building information
-export default class Building {
+class Building {
   constructor(name, race) {
     this.Name = name;
     this.Race = race;
     this.Levels = Data.BuildingData[name];
     const meta = Data.BuildingMeta[name] || {};
+    if (!this.Levels) {
+      this.Valid = false;
+      return;
+    }
+    this.Valid = true;
 
     this.Output = meta.Output;
 
@@ -23,7 +28,7 @@ export default class Building {
     } else {
       this.Image = Images[name];
     }
-
+    console.log(name, race, this.Image, meta);
     this.UsesSupplies = false;
     if (meta.SuppliesPerOut) {
       this.UsesSupplies = true;
@@ -84,7 +89,7 @@ export default class Building {
     streets.append(new Value("the culture from the street", -1 * streetLen * streetCulture));
 
     if (this.Name != "Residence") {
-      const res = new Building("Residence", this.Race);
+      const res = getBuilding("Residence", this.Race);
       const residenceTerm = res.getEffectiveCultureDerivation(
         residenceLevel,
         cultureDensity,
@@ -101,7 +106,7 @@ export default class Building {
     if (this.UsesSupplies) {
       let suppliesNeeded = 0;
       let wsOutput = 0;
-      const ws = new Building("Workshop", this.Race);
+      const ws = getBuilding("Workshop", this.Race);
       // Count up the supplies used per day and a canonical workshop's production
       // per day. The ratio is how many workshops we need to support this building.
       for(let time in Data.CollectionOptions[collectCount].Collections) {
@@ -127,5 +132,9 @@ export default class Building {
     }
     return root;
   }
-
+}
+const Memoize = {};
+export default function getBuilding(name, race) {
+  Memoize[name] = Memoize[name] || {};
+  return Memoize[name][race] = Memoize[name][race] || new Building(name, race);
 }

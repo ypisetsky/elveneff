@@ -16,12 +16,8 @@ class Widget extends React.Component {
     this.id_prefix = Math.floor(Math.random() * 1000000000000);
   }
 
-  renderBody() {
+  renderBody(data) {
     const rows = [];
-    if (!(this.props.title in Data.BuildingMeta)) {
-      return <div>Error: no data on {this.props.title}</div>;
-    }
-    const data = new Building(this.props.title, "Elves");
     let popHeader = <th>Population</th>;
     const outName = data.Output;
     for(let i = data.getMinLevel(); i <= data.getMaxLevel(); i++) {
@@ -90,10 +86,11 @@ class Widget extends React.Component {
   }
 
   render() {
-    if (this.props.title in Data.BuildingMeta) {
+    const building = Building(this.props.title, this.props.race);
+    if (building.Valid) {
       return <div className="widget">
-        <div align="center"><img src={Data.BuildingMeta[this.props.title].Image} className="buildingImg"/></div>
-        {this.renderBody()}
+        <div align="center"><img src={building.Image} className="buildingImg"/></div>
+        {this.renderBody(building)}
       </div>;
     }
     return <div>Placeholder for {this.props.title}</div>;

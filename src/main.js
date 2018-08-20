@@ -129,14 +129,14 @@ class ElvenarCalculator extends React.Component {
       return;
     }
     const chapter = event.target.value ;
-    const res = new Building("Residence", "Elves");
+    const res = Building("Residence", "Elves");
     for (let i = res.getMaxLevel(); i >= res.getMinLevel(); i--) {
       if (res.getChapter(i) <= chapter) {
         this.setState({residenceLevel: i});
         break;
       }
     }
-    const ws = new Building("Workshop", "Elves");
+    const ws = Building("Workshop", "Elves");
     for (let i = ws.getMaxLevel(); i >= ws.getMinLevel(); i--) {
       if (ws.getChapter(i) <= chapter) {
         this.setState({workshopLevel: i});
