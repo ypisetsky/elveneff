@@ -46,6 +46,9 @@ class Building {
   }
 
   getMinLevel() {
+    if (this.name === "Armory (Orcs)") {
+      return 20;
+    }
     return 1;
   }
 
