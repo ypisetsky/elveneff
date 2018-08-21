@@ -1,14 +1,16 @@
 'use strict';
 
-import Residence from './images/residence.png';
-import Workshop from './images/workshop.png';
-import Marble from './images/marble.png';
-import Steel from './images/steel.png';
-import Planks from './images/planks.png';
-import Crystal from './images/crystal.png';
-import Scrolls from './images/scrolls.png';
-import Elixir from './images/Elixir.png';
-
+import Residence from './humanimg/residence.png';
+import Workshop from './humanimg/workshop.png';
+import Marble from './humanimg/marble.png';
+import Steel from './humanimg/steel.png';
+import Planks from './humanimg/planks.png';
+import Crystal from './humanimg/crystal.png';
+import Scrolls from './humanimg/scrolls.png';
+import Silk from './humanimg/silk.png';
+import Elixir from './humanimg/Elixir.png';
+import MagicDust from './humanimg/dust.png';
+import Gems from './humanimg/gems.png';
 
 module.exports = {
   Residence,
@@ -18,5 +20,8 @@ module.exports = {
   Planks,
   Crystal,
   Scrolls,
+  Silk,
   Elixir,
+  "Magic Dust": MagicDust,
+  Gems,
 }

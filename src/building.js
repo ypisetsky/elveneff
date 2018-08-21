@@ -2,6 +2,7 @@
 import Data from './data';
 import HumanData from './humandata';
 import Images from './images';
+import ImagesH from './humanimg';
 import {Value, SumHolder} from './derivation';
 
 export const cultureIndex = 3;
@@ -29,6 +30,8 @@ class Building {
 
     if (meta.Image) {
       this.Image = meta.Image;
+    } else if (this.race == "Humans" && ImagesH[name]){
+      this.Image = ImagesH[name];
     } else {
       this.Image = Images[name];
     }
