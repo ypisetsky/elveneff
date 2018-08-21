@@ -55,7 +55,7 @@ class LeftNav extends React.Component {
     }
 
 
-    return <form>
+    const top = <form>
       <b>Select Race</b>
       <br />
       <input type="radio" id="raceElves" name="race" value="Elves" checked={this.props.race == "Elves"}
@@ -101,6 +101,12 @@ class LeftNav extends React.Component {
         {streetOpts}
       </select>
     </form>;
+    return <div>
+      {top}
+      <div className="footer">
+        Yuliy Pisetsky © 2018. This site is not affiliated or associated with InnoGames or Elvenar in any way. All original images are copyright to their respective owners and no copyright infringement is intended.
+      </div>
+    </div>
   }
 }
 

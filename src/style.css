@@ -15,6 +15,7 @@ td {
 #leftBar {
   position: absolute;
   height: 100%;
+  max-height: 100%;
   width: 155px;
   border-right: 1px solid black;
   padding: 5px;
@@ -60,6 +61,14 @@ td {
 .tooltip {
   margin: 0px;
   padding-left: 0px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 10px;
+  font-size: 10px;
+  width: 155px;
+  color: #999999;
 }
 
 img.buildingImg {
