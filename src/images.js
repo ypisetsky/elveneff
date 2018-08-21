@@ -10,6 +10,7 @@ import Scrolls from './images/scrolls.png';
 import Silk from './images/silk.png';
 import Elixir from './images/Elixir.png';
 import MagicDust from './images/dust.png';
+import Gems from './images/gems.png';
 
 module.exports = {
   Residence,
@@ -22,4 +23,5 @@ module.exports = {
   Silk,
   Elixir,
   "Magic Dust": MagicDust,
+  Gems,
 }
