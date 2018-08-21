@@ -7,7 +7,9 @@ import Steel from './images/steel.png';
 import Planks from './images/planks.png';
 import Crystal from './images/crystal.png';
 import Scrolls from './images/scrolls.png';
+import Silk from './images/silk.png';
 import Elixir from './images/Elixir.png';
+import MagicDust from './images/dust.png';
 
 module.exports = {
   Residence,
@@ -17,5 +19,7 @@ module.exports = {
   Planks,
   Crystal,
   Scrolls,
+  Silk,
   Elixir,
+  "Magic Dust": MagicDust,
 }
