@@ -4,14 +4,6 @@ body {
   background-color: #CCCCCC;
 }
 
-#reactRoot {
-  height: 100%;
-  min-height: 100%;
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  display: grid;
-}
 
 th {
   text-decoration: underline;

@@ -50,6 +50,8 @@ class Widget extends React.Component {
           <td>{cult}</td>
           {popCell}
           <td>{out}</td>
+          <td>{formatNum(out / cult)}</td>
+          <td>{formatNum(out / (buildingSpace + roadSpace))}</td>
           <td>
             <a data-tip="Hello" data-for={this.id_prefix + ":" + i}>
               {formatNum(effectiveCultureDerivation.getSum() / this.props.cultureDensity)}
@@ -60,8 +62,6 @@ class Widget extends React.Component {
               </ul>
             </ReactTooltip>
           </td>
-          <td>{formatNum(out / cult)}</td>
-          <td>{formatNum(out / (buildingSpace + roadSpace))}</td>
           <td>{formatNum(out * this.props.cultureDensity / effectiveCultureDerivation.getSum())}</td>
         </tr>
       );
@@ -75,9 +75,9 @@ class Widget extends React.Component {
           <th>Culture</th>
           {popHeader}
           <th>{outName}</th>
-          <th>Spaces used</th>
           <th>{outName}/Culture</th>
           <th>{outName}/Tile</th>
+          <th>Spaces used</th>
           <th>Effective {outName} / Culture tile</th>
         </tr>
         {rows}
