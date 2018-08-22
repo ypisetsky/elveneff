@@ -35,7 +35,6 @@ class Building {
     } else {
       this.Image = Images[name];
     }
-    console.log(name, race, this.Image, meta);
     this.UsesSupplies = false;
     if (meta.SuppliesPerOut) {
       this.UsesSupplies = true;

@@ -205,7 +205,6 @@ class ElvenarCalculator extends React.Component {
   }
 
   toggleHelp(event) {
-    console.log("toggleHelp", event);
     this.setState({showHelp: !this.state.showHelp});
   }
 }

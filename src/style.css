@@ -1,6 +1,16 @@
 body {
   font-family: "Karla", sans-serif;
   margin: 0px;
+  background-color: #CCCCCC;
+}
+
+#reactRoot {
+  height: 100%;
+  min-height: 100%;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  display: grid;
 }
 
 th {
@@ -24,6 +34,7 @@ td {
   margin-right: 5px;
   padding-top: 5px;
   z-index: 10;
+  background-color: #FFFFFF;
 }
 
 #mainContent {
@@ -31,7 +42,7 @@ td {
   padding-left: 5px;
   padding-bottom: 0px;
   margin-top: 0px;
-  margin-left: 160px;
+  margin-left: 165px;
   background-color: #CCCCCC;
   height: 100%;
   overflow-y: scroll;

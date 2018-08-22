@@ -29,7 +29,6 @@ class LeftNav extends React.Component {
     }
 
     const collectOpts = [];
-    console.log(Data.CollectionOptions);
     for (let i in Data.CollectionOptions) {
       collectOpts.push(
         <option value={i} key={i}>
@@ -67,8 +66,8 @@ class LeftNav extends React.Component {
       <label htmlFor="raceHumans">Humans</label>
       <br />
       <b>Select Chapter</b>
-      <select onChange={this.props.onChapterSelect}>
-        <option value={null} selected={true}>--- Select a Chapter ---</option>
+      <select onChange={this.props.onChapterSelect} defaultValue="">
+        <option value="">--- Select a Chapter ---</option>
         {chapters}
       </select>
       <br />

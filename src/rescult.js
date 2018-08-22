@@ -29,37 +29,38 @@ class ResidenceCultureChecker extends React.Component {
     ).getSum();
     culture += culturePerResidence * this.state.pop /
       residence.getOutput(this.props.residenceLevel);
-    console.log(this.state, this.props);
-    return <td className="widget">
+    return <div className="widget">
       <table>
-        <tr>
-          <td>Size</td>
-          <td><input type="text" name="size"
-            value={this.state.size} onChange={this.changer} />
-          </td>
-        </tr>
-        <tr>
-          <td>Population</td>
-          <td><input type="text" name="pop"
-            value={this.state.pop} onChange={this.changer} />
-          </td>
-        </tr>
-        <tr>
-          <td>Culture</td>
-          <td><input type="text" name="cult"
-            value={this.state.cult} onChange={this.changer} />
-          </td>
-        </tr>
-        <tr>
-          <td>Effective Culture</td>
-          <td>{formatNum(culture)}</td>
-        </tr>
-        <tr>
-          <td>Culture Per Tile</td>
-          <td>{formatNum(culture / this.state.size)}</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Size</td>
+            <td><input type="text" name="size"
+              value={this.state.size} onChange={this.changer} />
+            </td>
+          </tr>
+          <tr>
+            <td>Population</td>
+            <td><input type="text" name="pop"
+              value={this.state.pop} onChange={this.changer} />
+            </td>
+          </tr>
+          <tr>
+            <td>Culture</td>
+            <td><input type="text" name="cult"
+              value={this.state.cult} onChange={this.changer} />
+            </td>
+          </tr>
+          <tr>
+            <td>Effective Culture</td>
+            <td>{formatNum(culture)}</td>
+          </tr>
+          <tr>
+            <td>Culture Per Tile</td>
+            <td>{formatNum(culture / this.state.size)}</td>
+          </tr>
+        </tbody>
       </table>
-    </td>;
+    </div>;
   }
   changer(event) {
     const newState = {};
