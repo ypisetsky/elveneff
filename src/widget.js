@@ -47,11 +47,11 @@ class Widget extends React.Component {
         <tr key={i}>
           <td>{w}x{h}</td>
           <td>{renderChapter(data.getChapter(i))}</td>
-          <td>{cult}</td>
+          <td class="rawData">{cult}</td>
           {popCell}
-          <td>{out}</td>
-          <td>{formatNum(out / cult)}</td>
-          <td>{formatNum(out / (buildingSpace + roadSpace))}</td>
+          <td class="rawData">{out}</td>
+          <td class="rawData">{formatNum(out / cult)}</td>
+          <td class="rawData">{formatNum(out / (buildingSpace + roadSpace))}</td>
           <td>
             <a data-tip="Hello" data-for={this.id_prefix + ":" + i}>
               {formatNum(effectiveCultureDerivation.getSum() / this.props.cultureDensity)}
