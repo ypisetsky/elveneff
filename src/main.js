@@ -56,7 +56,7 @@ class MainWindow extends React.Component {
   render() {
     let body;
     if (this.props.help) {
-      body = <HelpWindow />;
+      body = <HelpWindow toggleHelp={this.props.toggleHelp}/>;
     } else {
       body = <table className="widgetRow">
         <tbody>
@@ -97,6 +97,7 @@ class ElvenarCalculator extends React.Component {
       workshopLevel: 18,
       streetCulture: 49,
       race: "Elves",
+      showHelp: true,
     };
     this.quickSelect = this.quickSelect.bind(this);
     this.setProp = this.setProp.bind(this);
@@ -106,6 +107,7 @@ class ElvenarCalculator extends React.Component {
   render() {
     const window = <MainWindow
       help={this.state.showHelp}
+      toggleHelp={this.toggleHelp}
       cultureDensity={this.state.cultureDensity}
       residenceLevel={this.state.residenceLevel}
       workshopLevel={this.state.workshopLevel}

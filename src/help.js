@@ -48,6 +48,7 @@ export default class HelpWindow extends React.Component {
       culture/pop requirements for the upgrade instead of this total). There are
       also stats for the output / raw space and output / culture of each
       building (these are just raw numbers, no assumptions made).</p>
+      <a href="#" onClick={this.props.toggleHelp}>Close</a>
     </div>;
   }
 }
