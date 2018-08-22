@@ -1,6 +1,6 @@
 body {
   font-family: "Karla", sans-serif;
-  margin-left: 3px;
+  margin: 0px;
 }
 
 th {
@@ -13,22 +13,28 @@ td {
 }
 
 #leftBar {
-  position: absolute;
+  position: fixed;
+  top: 0px;
   height: 100%;
   max-height: 100%;
   width: 155px;
   border-right: 1px solid black;
-  padding: 5px;
+  padding-right: 5px;
   padding-left: 2px;
   margin-right: 5px;
+  padding-top: 5px;
   z-index: 10;
 }
 
 #mainContent {
-  padding: 5px;
+  padding-top: 0px;
+  padding-left: 5px;
+  padding-bottom: 0px;
+  margin-top: 0px;
   margin-left: 160px;
   background-color: #CCCCCC;
-  min-height: 100%;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 #mainContent td {
