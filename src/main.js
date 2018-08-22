@@ -8,6 +8,7 @@ import Building from './building';
 import Widget from './widget';
 import ResidenceCultureChecker from './rescult';
 import LeftNav from './left';
+import HelpWindow from './help';
 
 class WidgetOrSelectorContainer extends React.Component {
   constructor(props) {
@@ -53,8 +54,11 @@ class WidgetOrSelectorContainer extends React.Component {
 
 class MainWindow extends React.Component {
   render() {
-    return <div id="mainContent">
-      <table className="widgetRow">
+    let body;
+    if (this.props.help) {
+      body = <HelpWindow />;
+    } else {
+      body = <table className="widgetRow">
         <tbody>
           <tr>
             <WidgetOrSelectorContainer key="left"
@@ -75,7 +79,10 @@ class MainWindow extends React.Component {
               streetCulture={this.props.streetCulture} />
           </tr>
         </tbody>
-      </table>
+      </table>;
+    }
+    return <div id="mainContent">
+      {body}
     </div>;
   }
 }
@@ -93,10 +100,12 @@ class ElvenarCalculator extends React.Component {
     };
     this.quickSelect = this.quickSelect.bind(this);
     this.setProp = this.setProp.bind(this);
+    this.toggleHelp = this.toggleHelp.bind(this);
   }
 
   render() {
     const window = <MainWindow
+      help={this.state.showHelp}
       cultureDensity={this.state.cultureDensity}
       residenceLevel={this.state.residenceLevel}
       workshopLevel={this.state.workshopLevel}
@@ -113,6 +122,7 @@ class ElvenarCalculator extends React.Component {
       race={this.state.race}
       onChapterSelect={this.quickSelect}
       onChange={this.setProp}
+      toggleHelp={this.toggleHelp}
     />;
     return <div>
       <div id="leftBar">
@@ -192,5 +202,9 @@ class ElvenarCalculator extends React.Component {
     this.setState({[event.target.name]: event.target.value});
   }
 
+  toggleHelp(event) {
+    console.log("toggleHelp", event);
+    this.setState({showHelp: !this.state.showHelp});
+  }
 }
 ReactDOM.render(<ElvenarCalculator />, document.querySelector("#reactRoot"));

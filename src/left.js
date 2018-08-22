@@ -100,9 +100,11 @@ class LeftNav extends React.Component {
         value={this.props.streetCulture} >
         {streetOpts}
       </select>
+      <hr />
     </form>;
     return <div>
       {top}
+      <b><button onClick={this.props.toggleHelp}>Help</button></b>
       <div className="footer">
         Yuliy Pisetsky © 2018. This site is not affiliated or associated with InnoGames or Elvenar in any way. All original images are copyright to their respective owners and no copyright infringement is intended.
       </div>
