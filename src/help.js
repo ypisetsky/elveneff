@@ -4,7 +4,7 @@ import React from 'react';
 export default class HelpWindow extends React.Component {
   render() {
     return <div>
-      <h1>Elvenar Efficiency Modeling</h1>
+      <h1>Elvenar Efficiency Calculator</h1>
       <p>This is a tool meant to help make sense of the various options for
       buildings in your Elvenar town. it{"'"}s clear that space is the limiting
       factor for how much you can have in your city. However, there are other

@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.css';
 import Data from './data';
+import Building from './building';
 import {formatNum, outputIndex} from './util';
 
 class ResidenceCultureChecker extends React.Component {
@@ -17,8 +18,8 @@ class ResidenceCultureChecker extends React.Component {
   }
   render() {
     let culture = parseInt(this.state.cult);
-    let culturePerResidence = Data.getEffectiveCultureDerivation(
-      "Residence",
+    let residence = Building("Residence", this.props.race);
+    let culturePerResidence = residence.getEffectiveCultureDerivation(
       this.props.residenceLevel,
       this.props.cultureDensity,
       this.props.residenceLevel, // ignored
@@ -27,7 +28,7 @@ class ResidenceCultureChecker extends React.Component {
       this.props.streetCulture,
     ).getSum();
     culture += culturePerResidence * this.state.pop /
-      Data.BuildingData.Residence[this.props.residenceLevel][outputIndex];
+      residence.getOutput(this.props.residenceLevel);
     console.log(this.state, this.props);
     return <td className="widget">
       <table>
