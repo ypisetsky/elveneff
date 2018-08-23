@@ -23,7 +23,7 @@ class Widget extends React.Component {
     for(let i = data.getMinLevel(); i <= data.getMaxLevel(); i++) {
       const w = data.getWidth(i);
       const h = data.getHeight(i);
-      const out = data.getOutput(i);
+      const out = data.getDailyOutput(i, this.props.collectCount);
       const pop = data.getPop(i);
       const cult = data.getCulture(i);
       const buildingSpace = w * h;
@@ -49,7 +49,7 @@ class Widget extends React.Component {
           <td>{renderChapter(data.getChapter(i))}</td>
           <td class="rawData">{cult}</td>
           {popCell}
-          <td class="rawData">{out}</td>
+          <td class="rawData">{formatNum(out)}</td>
           <td class="rawData">{formatNum(out / cult)}</td>
           <td class="rawData">{formatNum(out / (buildingSpace + roadSpace))}</td>
           <td>

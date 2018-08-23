@@ -86,6 +86,16 @@ class Building {
     return this._getRow(level)[outputIndex];
   }
 
+  getDailyOutput(level, collectCount) {
+    let out = 0;
+    for(let time in Data.CollectionOptions[collectCount].Collections) {
+      out += this.Production[time] * this.getOutput(level) *
+        Data.CollectionOptions[collectCount].Collections[time];
+    }
+    return out;
+  }
+
+
   getEffectiveCultureDerivation(lvl, cultureDensity, residenceLevel, wsLevel, collectCount, streetCulture) {
     const streetLen = Math.min(this.getWidth(lvl), this.getHeight(lvl)) / 2.0
     //const size = row[1] * row[2] + roads;
