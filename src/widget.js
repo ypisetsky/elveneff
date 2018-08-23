@@ -14,6 +14,7 @@ class Widget extends React.Component {
   constructor(props) {
     super(props);
     this.id_prefix = Math.floor(Math.random() * 1000000000000);
+    this.state = {};
   }
 
   renderBody(data) {
@@ -23,7 +24,7 @@ class Widget extends React.Component {
     for(let i = data.getMinLevel(); i <= data.getMaxLevel(); i++) {
       const w = data.getWidth(i);
       const h = data.getHeight(i);
-      const out = data.getDailyOutput(i, this.props.collectCount);
+      const out = data.getDailyOutput(i, this.props.collectCount, this.state.customOptions);
       const pop = data.getPop(i);
       const cult = data.getCulture(i);
       const buildingSpace = w * h;
@@ -47,11 +48,11 @@ class Widget extends React.Component {
         <tr key={i}>
           <td>{w}x{h}</td>
           <td>{renderChapter(data.getChapter(i))}</td>
-          <td class="rawData">{cult}</td>
+          <td className="rawData">{cult}</td>
           {popCell}
-          <td class="rawData">{formatNum(out)}</td>
-          <td class="rawData">{formatNum(out / cult)}</td>
-          <td class="rawData">{formatNum(out / (buildingSpace + roadSpace))}</td>
+          <td className="rawData">{formatNum(out)}</td>
+          <td className="rawData">{formatNum(out / cult)}</td>
+          <td className="rawData">{formatNum(out / (buildingSpace + roadSpace))}</td>
           <td>
             <a data-tip="Hello" data-for={this.id_prefix + ":" + i}>
               {formatNum(effectiveCultureDerivation.getSum() / this.props.cultureDensity)}
@@ -85,11 +86,25 @@ class Widget extends React.Component {
     </table>;
   }
 
+  renderForm(building) {
+    if (!building.ConfigFormFactory) {
+      return null;
+    }
+    return <div align="center">{building.ConfigFormFactory(this.updateCustomProperty)}</div>;
+  }
+
+  updateCustomProperty(newValues) {
+    this.setState((oldState, props) => {
+      return {customOptions: Object.assign(newValues, oldState.customOptions) };
+    });
+  }
+
   render() {
     const building = Building(this.props.title, this.props.race);
     if (building.Valid) {
       return <div className="widget">
         <div align="center"><img src={building.Image} className="buildingImg"/></div>
+        {this.renderForm(building)}
         {this.renderBody(building)}
       </div>;
     }

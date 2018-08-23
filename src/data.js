@@ -1,6 +1,7 @@
 'use strict';
+import React from 'react';
 
-import {cultureIndex, popIndex, outputIndex} from './util';
+import {cultureIndex, popIndex, outputIndex, renderChapter} from './util';
 import Img from './images';
 
 const ElvesData = {
@@ -415,7 +416,34 @@ const ElvesData = {
     [13,5,8,1997,712,300],
     [13,5,8,2216,785,320],
     [13,5,8,2455,999,350],
-  ]
+  ],
+  "Endless Excavation": [
+    [1,5,4,0,0,3],
+    [1,5,4,0,0,3.5],
+    [1,5,4,0,0,4],
+    [1,5,4,0,0,4.5],
+    [1,5,4,0,0,5],
+    [2,5,4,0,0,6],
+    [2,5,4,0,0,6.5],
+    [2,5,4,0,0,7],
+    [2,5,4,0,0,7.5],
+    [2,5,4,0,0,8],
+    [3,5,4,0,0,9],
+    [3,5,4,0,0,9.5],
+    [3,5,4,0,0,10],
+    [3,5,4,0,0,10.5],
+    [3,5,4,0,0,11],
+    [4,5,4,0,0,12],
+    [4,5,4,0,0,12.5],
+    [4,5,4,0,0,13],
+    [4,5,4,0,0,13.5],
+    [4,5,4,0,0,14],
+    [5,5,4,0,0,15],
+    [5,5,4,0,0,15.5],
+    [5,5,4,0,0,16],
+    [5,5,4,0,0,16.5],
+    [5,5,4,0,0,17],
+  ],
 }
 
 if (!ElvesData.Processed) {
@@ -555,7 +583,55 @@ const BuildingMeta = {
   Barracks: {
     Image: "mercs.png",
     Output: "Military Speed",
-  }
+  },
+  "Endless Excavation": {
+    Output: "Sup",
+    ConfigFormFactory: function(updater, chapter, props, state) {
+      const callback = (event) => {
+        updater({mainHallLevel: event.target.value});
+      }
+      const mhLevels = [
+        [1,2700], 
+        [1,68800],
+        [1,13000],
+        [1,22000],
+        [1,34000],
+        [2,48000],
+        [2,68000],
+        [2,91000],
+        [2,120000],
+        [3,160000],
+        [3,200000],
+        [3,240000],
+        [3,300000],
+        [3,360000],
+        [3,440000],
+        [6,500000],
+        [6,570000],
+        [7,660000],
+        [7,770000],
+        [8,900000],
+        [8,1040000],
+        [9,1190000],
+        [9,1360000],
+        [10,1540000],
+        [10,1740000],
+        [11,1960000],
+        [11,2200000],
+        [12,2500000],
+        [12,2700000],
+        [13,3100000],
+        [13,3400000],
+      ];
+      const opts = [];
+      for (let i = 0; i < mhLevels.length; i++) {
+        opts.push(<option value={mhLevels[i][1]}>
+          Level {i+1} ({renderChapter(mhLevels[i][0])})
+        </option>);
+      }
+      return <select onChange={callback}>{opts}</select>;
+    },
+  },
 }
 
 const Roads = {

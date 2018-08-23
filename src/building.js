@@ -45,6 +45,14 @@ class Building {
     } else {
       this.Production = Data.GoodsRatios;
     }
+
+    if (meta.CustomOut) {
+      this.getDailyOutput = meta.CustomOut;
+    }
+
+    if (meta.ConfigFormFactory) {
+      this.ConfigFormFactory = meta.ConfigFormFactory;
+    }
   }
 
   getMinLevel() {
@@ -86,7 +94,7 @@ class Building {
     return this._getRow(level)[outputIndex];
   }
 
-  getDailyOutput(level, collectCount) {
+  getDailyOutput(level, collectCount, extras) {
     let out = 0;
     for(let time in Data.CollectionOptions[collectCount].Collections) {
       out += this.Production[time] * this.getOutput(level) *
