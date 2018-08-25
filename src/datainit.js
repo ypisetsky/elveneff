@@ -1,9 +1,11 @@
 'use strict';
 
-import EndlessExcavation from './wonders/endlessExcavation';
 import Data from './data';
 import HumanData from './humandata';
 import {cultureIndex, popIndex, outputIndex} from './util';
+
+import EndlessExcavation from './wonders/endlessExcavation';
+import ProsperityTowers from './wonders/prosperity';
 
 let Processed = false;
 
@@ -33,6 +35,7 @@ if (!Processed) {
     }
   }
   Data.BuildingMeta["Endless Excavation"] = EndlessExcavation;
+  Data.BuildingMeta["Prosperity Towers"] = ProsperityTowers;
   Processed = true;
   Data.markProcessed();
 }

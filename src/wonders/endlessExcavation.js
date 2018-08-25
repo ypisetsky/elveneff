@@ -5,9 +5,9 @@ import {renderChapter} from '../util';
 import Building from '../building';
 
 function getMHOutput(state) {
-  console.log(state);
   return (state && state.mainHallOutput) || 120000;
 }
+
 const mhLevels = [
   [1,2700], 
   [1,68800],
