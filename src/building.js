@@ -15,6 +15,7 @@ class Building {
   constructor(name, race) {
     this.name = name;
     this.race = race;
+    Data.assertProcessed();
     this.levels = Data.ElvesData[name];
     if (this.race == "Humans" && HumanData[name]) {
       this.levels = HumanData[name];
@@ -42,7 +43,7 @@ class Building {
     }
     if (meta.Production) {
       this.Production = meta.Production;
-    } else {
+    } else if (this.UsesSupplies) {
       this.Production = Data.GoodsRatios;
     }
 
@@ -52,6 +53,10 @@ class Building {
 
     if (meta.ConfigFormFactory) {
       this.ConfigFormFactory = meta.ConfigFormFactory;
+    }
+
+    if (meta.GetInitialState) {
+      this.GetInitialState = meta.GetInitialState;
     }
   }
 
@@ -96,6 +101,9 @@ class Building {
 
   getDailyOutput(level, collectCount, extras) {
     let out = 0;
+    if (!this.Production) {
+      return this.getOutput(level);
+    }
     for(let time in Data.CollectionOptions[collectCount].Collections) {
       out += this.Production[time] * this.getOutput(level) *
         Data.CollectionOptions[collectCount].Collections[time];
@@ -139,10 +147,6 @@ class Building {
       for(let time in Data.CollectionOptions[collectCount].Collections) {
         suppliesNeeded += this.Production[time] * this.getOutput(lvl) *
           this.SuppliesPerOut * Data.CollectionOptions[collectCount].Collections[time];
-        if (!Data.CollectionOptions[collectCount].Collections) {
-          console.log(Data.CollectionOptions);
-        }
-        console.log(ws.Production);
         wsOutput += ws.getOutput(wsLevel) * ws.Production[time] *
           Data.CollectionOptions[collectCount].Collections[time];
       }

@@ -1,11 +1,20 @@
 'use strict';
 import React from 'react';
 
-import {cultureIndex, popIndex, outputIndex, renderChapter} from './util';
 import Img from './images';
 
+let Processed = false;
+function markProcessed() {
+  Processed = true;
+}
+
+function assertProcessed() {
+  if (!Processed) {
+    throw "Must include datainit before using data!";
+  }
+}
+
 const ElvesData = {
-  Processed: false,
   Residence: [
     [ 1,2,2,0,   0,31],
     [ 1,2,2,3,   0,4],
@@ -446,22 +455,6 @@ const ElvesData = {
   ],
 }
 
-if (!ElvesData.Processed) {
-  for (let building in ElvesData) {
-    const data = ElvesData[building];
-    for(let i = 1; i < data.length; i++) {
-      if (building == "Residence") {
-        // For some reason the wiki only gives marginal increase for residences
-        // while giving total for everything else. /shrug
-        data[i][outputIndex] += data[i-1][outputIndex];
-      }
-      data[i][cultureIndex] += data[i-1][cultureIndex];
-      data[i][popIndex] += data[i-1][popIndex];
-    }
-  }
-  ElvesData.Processed = true;
-}
-
 const GoodsRatios = {
   180: 0.319,
   540: 0.583,
@@ -584,54 +577,7 @@ const BuildingMeta = {
     Image: "mercs.png",
     Output: "Military Speed",
   },
-  "Endless Excavation": {
-    Output: "Sup",
-    ConfigFormFactory: function(updater, chapter, props, state) {
-      const callback = (event) => {
-        updater({mainHallLevel: event.target.value});
-      }
-      const mhLevels = [
-        [1,2700], 
-        [1,68800],
-        [1,13000],
-        [1,22000],
-        [1,34000],
-        [2,48000],
-        [2,68000],
-        [2,91000],
-        [2,120000],
-        [3,160000],
-        [3,200000],
-        [3,240000],
-        [3,300000],
-        [3,360000],
-        [3,440000],
-        [6,500000],
-        [6,570000],
-        [7,660000],
-        [7,770000],
-        [8,900000],
-        [8,1040000],
-        [9,1190000],
-        [9,1360000],
-        [10,1540000],
-        [10,1740000],
-        [11,1960000],
-        [11,2200000],
-        [12,2500000],
-        [12,2700000],
-        [13,3100000],
-        [13,3400000],
-      ];
-      const opts = [];
-      for (let i = 0; i < mhLevels.length; i++) {
-        opts.push(<option value={mhLevels[i][1]}>
-          Level {i+1} ({renderChapter(mhLevels[i][0])})
-        </option>);
-      }
-      return <select onChange={callback}>{opts}</select>;
-    },
-  },
+  "Endless Excavation": undefined,
 }
 
 const Roads = {
@@ -652,5 +598,7 @@ module.exports = {
   CollectionOptions,
   GoodsRatios,
   Roads,
-  ElvesData
+  ElvesData,
+  assertProcessed,
+  markProcessed,
 }

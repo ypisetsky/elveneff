@@ -15,6 +15,14 @@ class Widget extends React.Component {
     super(props);
     this.id_prefix = Math.floor(Math.random() * 1000000000000);
     this.state = {};
+    this.updateCustomProperty = this.updateCustomProperty.bind(this);
+  }
+
+  getDerivedStateFromProps(props, state) {
+    if (!(this.props.title in state)) {
+      const building = Building(this.props.title, this.props.race);
+      return { [this.props.title]: building && building.GetInitialState(props) }
+    }
   }
 
   renderBody(data) {
@@ -24,7 +32,7 @@ class Widget extends React.Component {
     for(let i = data.getMinLevel(); i <= data.getMaxLevel(); i++) {
       const w = data.getWidth(i);
       const h = data.getHeight(i);
-      const out = data.getDailyOutput(i, this.props.collectCount, this.state.customOptions);
+      const out = data.getDailyOutput(i, this.props.collectCount, this.state[data.name]);
       const pop = data.getPop(i);
       const cult = data.getCulture(i);
       const buildingSpace = w * h;
@@ -90,12 +98,12 @@ class Widget extends React.Component {
     if (!building.ConfigFormFactory) {
       return null;
     }
-    return <div align="center">{building.ConfigFormFactory(this.updateCustomProperty)}</div>;
+    return <div align="center">{building.ConfigFormFactory(this.updateCustomProperty, this.state[this.props.title])}</div>;
   }
 
   updateCustomProperty(newValues) {
     this.setState((oldState, props) => {
-      return {customOptions: Object.assign(newValues, oldState.customOptions) };
+      return {[this.props.title]: Object.assign(newValues, oldState.customOptions) };
     });
   }
 

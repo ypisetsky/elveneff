@@ -366,20 +366,4 @@ const HumanData = {
 
 }
 
-if (!HumanData.Processed) {
-  for (let building in HumanData) {
-    const data = HumanData[building];
-    for(let i = 1; i < data.length; i++) {
-      if (building == "Residence") {
-        // For some reason the wiki only gives marginal increase for residences
-        // while giving total for everything else. /shrug
-        data[i][outputIndex] += data[i-1][outputIndex];
-      }
-      data[i][cultureIndex] += data[i-1][cultureIndex];
-      data[i][popIndex] += data[i-1][popIndex];
-    }
-  }
-  HumanData .Processed = true;
-}
-
 module.exports = HumanData;

@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import './style.css';
 
 import Data from './data';
+import DataInit from './datainit';
 import Building from './building';
 import Widget from './widget';
 import ResidenceCultureChecker from './rescult';
