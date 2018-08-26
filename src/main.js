@@ -68,6 +68,7 @@ class MainWindow extends React.Component {
               residenceLevel={this.props.residenceLevel}
               workshopLevel={this.props.workshopLevel}
               collectCount={this.props.collectCount}
+              relicBoost={this.props.relicBoost}
               race={this.props.race}
               streetCulture={this.props.streetCulture} />
             <WidgetOrSelectorContainer key="right"
@@ -76,6 +77,7 @@ class MainWindow extends React.Component {
               residenceLevel={this.props.residenceLevel}
               workshopLevel={this.props.workshopLevel}
               collectCount={this.props.collectCount}
+              relicBoost={this.props.relicBoost}
               race={this.props.race}
               streetCulture={this.props.streetCulture} />
           </tr>
@@ -97,6 +99,7 @@ class ElvenarCalculator extends React.Component {
       residenceLevel: 18, // really level 19, but 0 indexing
       workshopLevel: 18,
       streetCulture: 49,
+      relicBoost: 700,
       race: "Elves",
       showHelp: true,
     };
@@ -114,6 +117,7 @@ class ElvenarCalculator extends React.Component {
       workshopLevel={this.state.workshopLevel}
       collectCount={this.state.collectCount}
       streetCulture={this.state.streetCulture}
+      relicBoost={this.state.relicBoost}
       race={this.state.race}
     />;
     const left = <LeftNav parent={this}
@@ -122,6 +126,7 @@ class ElvenarCalculator extends React.Component {
       workshopLevel={this.state.workshopLevel}
       collectCount={this.state.collectCount}
       streetCulture={this.state.streetCulture}
+      relicBoost={this.state.relicBoost}
       race={this.state.race}
       onChapterSelect={this.quickSelect}
       onChange={this.setProp}
@@ -164,41 +169,51 @@ class ElvenarCalculator extends React.Component {
     }
     this.setState({streetCulture: best});
     let cultureDensity = 145;
+    let relicBoost = 700;
     switch (parseInt(chapter)) {
       // In most cases, I use an item actually in the last row of techs from
       // the previous age
       case 1:
         cultureDensity = 22; // Luminous Signpost
+        relicBoost = 100;
         break;
       case 2:
         cultureDensity = 28; // Flying Boat (I)
+        relicBoost = 140;
         break;
       case 3:
         cultureDensity = 33; // Spot of Whispering Trees (II)
+        relicBoost = 260;
         break;
       case 4:
         cultureDensity = 49; // Mysterious Cyclone (III)
+        relicBoost = 340;
         break;
       case 5:
         cultureDensity = 60; // Temple of Ages (IV)
+        relicBoost = 470;
         break;
       case 6:
         cultureDensity = 85; // Ancient Grounds (halfway through)
+        relicBoost = 560;
         break;
       case 7:
         cultureDensity = 96; // Temple of the Holy Fire (Dwarves)
+        relicBoost = 580;
         break;
       case 8:
         cultureDensity = 123; // Pond of Recreation (Fairies); Diabhal's is only slightly higher
+        relicBoost = 650;
         break;
       case 9:
         cultureDensity = 145; // Campfire BBQ (Orcs)
+        relicBoost = 700;
         break;
       default:
         cultureDensity = 145;
         break;
     }
-    this.setState({cultureDensity: cultureDensity});
+    this.setState({cultureDensity, relicBoost});
   }
 
   setProp(event) {

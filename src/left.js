@@ -53,7 +53,6 @@ class LeftNav extends React.Component {
       );
     }
 
-
     const top = <form>
       <b>Select Race</b>
       <br />
@@ -99,6 +98,9 @@ class LeftNav extends React.Component {
         value={this.props.streetCulture} >
         {streetOpts}
       </select>
+      <br />
+      Boosted Goods %: <input type="text" size="5" value={this.props.relicBoost}
+         name="relicBoost" onChange={this.props.onChange} />
       <hr />
     </form>;
     return <div>
