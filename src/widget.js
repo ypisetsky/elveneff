@@ -32,7 +32,12 @@ class Widget extends React.Component {
     for(let i = data.getMinLevel(); i <= data.getMaxLevel(); i++) {
       const w = data.getWidth(i);
       const h = data.getHeight(i);
-      const out = data.getDailyOutput(i, this.props.collectCount, this.state[data.name]);
+      const out = data.getDailyOutput(
+        i, 
+        this.props.collectCount, 
+        this.props.relicBoost,
+        this.state[data.name],
+      );
       const pop = data.getPop(i);
       const cult = data.getCulture(i);
       const buildingSpace = w * h;

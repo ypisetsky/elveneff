@@ -44,7 +44,7 @@ const mhLevels = [
 
 module.exports = {
   Output: "Sup",
-  CustomOut: function(level, collectCount, state) {
+  CustomOut: function(level, collectCount, relicBoost, state) {
     console.log(level, collectCount, state);
     return this.getOutput(level) * getMHOutput(state) / 100;
   },

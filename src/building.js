@@ -36,14 +36,16 @@ class Building {
     } else {
       this.Image = Images[name];
     }
-    this.UsesSupplies = false;
+    this.usesSupplies = false;
+    this.usesRelics = false;
     if (meta.SuppliesPerOut) {
-      this.UsesSupplies = true;
+      this.usesSupplies = true;
       this.SuppliesPerOut = meta.SuppliesPerOut;
     }
     if (meta.Production) {
       this.Production = meta.Production;
-    } else if (this.UsesSupplies) {
+    } else if (this.usesSupplies) {
+      this.usesRelics = true;
       this.Production = Data.GoodsRatios;
     }
 
@@ -95,17 +97,22 @@ class Building {
     return this._getRow(level)[popIndex];
   }
 
-  getOutput(level) {
-    return this._getRow(level)[outputIndex];
+  getOutput(level, relicBoost) {
+    const ret = this._getRow(level)[outputIndex];
+    if (relicBoost && this.usesRelics) {
+      return ret * (1 + relicBoost/100);
+    }
+    return ret;
   }
 
-  getDailyOutput(level, collectCount, extras) {
+  getDailyOutput(level, collectCount, relicBoost, extras) {
+    console.log(this.name, level,collectCount, relicBoost, extras);
     let out = 0;
     if (!this.Production) {
-      return this.getOutput(level);
+      return this.getOutput(level, relicBoost);
     }
     for(let time in Data.CollectionOptions[collectCount].Collections) {
-      out += this.Production[time] * this.getOutput(level) *
+      out += this.Production[time] * this.getOutput(level, relicBoost) *
         Data.CollectionOptions[collectCount].Collections[time];
     }
     return out;
@@ -138,14 +145,16 @@ class Building {
       );
       root.append(residenceTerm);
     }
-    if (this.UsesSupplies) {
+    if (this.usesSupplies) {
       let suppliesNeeded = 0;
       let wsOutput = 0;
       const ws = getBuilding("Workshop", this.race);
       // Count up the supplies used per day and a canonical workshop's production
       // per day. The ratio is how many workshops we need to support this building.
       for(let time in Data.CollectionOptions[collectCount].Collections) {
-        suppliesNeeded += this.Production[time] * this.getOutput(lvl) *
+        // Assume 0 relic boost since relics don't increase the cost, just the
+        // actual output.
+        suppliesNeeded += this.Production[time] * this.getOutput(lvl, 0) *
           this.SuppliesPerOut * Data.CollectionOptions[collectCount].Collections[time];
         wsOutput += ws.getOutput(wsLevel) * ws.Production[time] *
           Data.CollectionOptions[collectCount].Collections[time];

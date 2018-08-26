@@ -23,6 +23,7 @@ class WidgetOrSelectorContainer extends React.Component {
         cultureDensity={this.props.cultureDensity}
         residenceLevel={this.props.residenceLevel}
         streetCulture={this.props.streetCulture}
+        relicBoost={this.props.relicBoost}
         race={this.props.race}
       />;
     } else if (this.state.selectedBuilding){
@@ -31,6 +32,7 @@ class WidgetOrSelectorContainer extends React.Component {
         cultureDensity={this.props.cultureDensity}
         residenceLevel={this.props.residenceLevel}
         streetCulture={this.props.streetCulture}
+        relicBoost={this.props.relicBoost}
         race={this.props.race}
         workshopLevel={this.props.workshopLevel}
         collectCount={this.props.collectCount} />;

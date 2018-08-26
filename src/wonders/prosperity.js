@@ -6,9 +6,9 @@ import EndlessExcavation from './endlessExcavation';
 module.exports = Object.assign(
   {},
   EndlessExcavation,
-  {CustomOut: function(level, collectCount, state) {
+  {CustomOut: function(level, collectCount, relicBoost, state) {
     const inheritedFunc = EndlessExcavation.CustomOut;
     // extra wrapper so that 'this' carries over
-    return inheritedFunc.call(this, level, collectCount, state) * collectCount;
+    return inheritedFunc.call(this, level, collectCount, relicBoost, state) * collectCount;
   }},
 );
