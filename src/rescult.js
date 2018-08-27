@@ -14,7 +14,9 @@ class ResidenceCultureChecker extends React.Component {
       height: 4,
       pop: 600,
       cult: 600,
-      output: 0,
+      output1d: 0,
+      output3h: 0,
+      output9h: 0,
     }
     this.changer = this.changer.bind(this);
   }
@@ -31,37 +33,6 @@ class ResidenceCultureChecker extends React.Component {
     ).getSum();
     culture += culturePerResidence * this.state.pop /
       residence.getOutput(this.props.residenceLevel);
-    let goodsOut = [];
-    if (this.state.output) {
-      const goodsBuilding = Building({
-        name: "Custom Building",
-        basicStats: [1, this.state.width, this.state.height, -culture, -residence, this.state.output],
-        Output: "Goods",
-      }, this.props.race);
-      const goodsSpace = goodsBuilding.getEffectiveCultureDerivation(
-        1, // only one "level"
-        this.props.cultureDensity,
-        this.props.residenceLevel,
-        this.props.residenceLevel, // ignored
-        1, // collect count (TODO: improve this)
-        this.props.streetCulture,
-      );
-      goodsSpace.scaleBy(1/this.props.cultureDensity);
-      goodsOut.push(
-        <tr>
-          <td>Effective spaces used</td>
-          <td>{goodsSpace.getSum()}</td>
-        </tr>,
-        <tr>
-          <td>Efficiency</td>
-          <td>{goodsBuilding.getDailyOutput(
-            1, 1, 0, null) / goodsSpace.getSum()}</td>
-        </tr>,
-      );
-
-      console.log(goodsBuilding, goodsSpace);
-    }
-      
       
     return <div className="widget">
       <table>
@@ -89,9 +60,21 @@ class ResidenceCultureChecker extends React.Component {
             </td>
           </tr>
           <tr>
-            <td>Tier 1</td>
-            <td><input type="text" name="output"
-              value={this.state.output} onChange={this.changer} />
+            <td>1 day output</td>
+            <td><input type="text" name="output1d"
+              value={this.state.output1d} onChange={this.changer} />
+            </td>
+          </tr>
+          <tr>
+            <td>3 hour output</td>
+            <td><input type="text" name="output3h"
+              value={this.state.output3h} onChange={this.changer} />
+            </td>
+          </tr>
+          <tr>
+            <td>9 hour output</td>
+            <td><input type="text" name="output9h"
+              value={this.state.output9h} onChange={this.changer} />
             </td>
           </tr>
           <tr>
@@ -102,15 +85,69 @@ class ResidenceCultureChecker extends React.Component {
             <td>Culture Per Tile</td>
             <td>{formatNum(culture / this.state.width / this.state.height)}</td>
           </tr>
-          {goodsOut}
+          {this.getGoodsOutput(culture)}
         </tbody>
       </table>
+      <p>Use this calculator to figure out the efficiency of event buildings. It
+        supports both residence/culture buildings (and tells you the effective
+        culture per tile based on the residence level and culture density
+        provided) as well as buildings which produce other goods which don't
+        consume supplies. If you specify 3h/9h production numbers, then the
+        collect count will be used to normalize production to a day.
+      </p>
     </div>;
   }
+  
   changer(event) {
     const newState = {};
     newState[event.target.name] = event.target.value;
     this.setState(newState);
+  }
+
+  getGoodsOutput(culture) {
+    if (this.state.output1d || this.state.output3h || this.state.output9h) {
+      const production = {};
+      if (this.state.output3h) {
+        production[180] = parseInt(this.state.output3h);
+      }
+      if (this.state.output3h || this.state.output9h) {
+        production[540] = parseInt(this.state.output9h || this.state.output3h);
+      }
+      production[1440] = parseInt(this.state.output1d || this.state.output9h || this.state.output3h);
+      const goodsBuilding = Building({
+        name: "Custom Building",
+        basicStats: [1, this.state.width, this.state.height, -culture, -1 * parseInt(this.state.pop), 1],
+        Production: production,
+        Output: "Goods",
+      }, this.props.race);
+      const goodsSpace = goodsBuilding.getEffectiveCultureDerivation(
+        1, // only one "level"
+        this.props.cultureDensity,
+        this.props.residenceLevel,
+        this.props.residenceLevel, // ignored
+        this.props.collectCount, // collect count (TODO: improve this)
+        this.props.streetCulture,
+      );
+      console.log(goodsSpace);
+      goodsSpace.scaleBy(1/this.props.cultureDensity);
+      return [
+        <tr>
+          <td>Effective spaces used</td>
+          <td>{goodsSpace.getSum()}</td>
+        </tr>,
+        <tr>
+          <td>Daily output</td>
+          <td>{goodsBuilding.getDailyOutput(
+            1, this.props.collectCount, 0, null,)}</td>
+        </tr>,
+        <tr>
+          <td>Efficiency</td>
+          <td>{goodsBuilding.getDailyOutput(
+            1, this.props.collectCount, 0, null) / goodsSpace.getSum()}</td>
+        </tr>,
+      ];
+    }
+    return [];
   }
 }
 

@@ -111,7 +111,23 @@ class Building {
     if (!this.Production) {
       return this.getOutput(level, relicBoost);
     }
-    for(let time in Data.CollectionOptions[collectCount].Collections) {
+
+    // Adjust for buildings with longer minimum collect times
+    let minTime = 1440;
+    for (let time in this.Production) {
+      if ((parseInt(time) < minTime) && this.Production[time]) {
+        minTime = time;
+      }
+    }
+    if (minTime >= 540) {
+      // If we can't do less than 9 hours, then we collect at most twice
+      collectCount = Math.min(collectCount, 2);
+    } if (minTime >= 1440) {
+      // If all we do is daily, do that
+      collectCount = Math.min(collectCount, 1);
+    }
+
+    for (let time in Data.CollectionOptions[collectCount].Collections) {
       out += this.Production[time] * this.getOutput(level, relicBoost) *
         Data.CollectionOptions[collectCount].Collections[time];
     }

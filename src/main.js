@@ -25,7 +25,7 @@ class WidgetOrSelectorContainer extends React.Component {
         streetCulture={this.props.streetCulture}
         relicBoost={this.props.relicBoost}
         race={this.props.race}
-      />;
+        collectCount={this.props.collectCount} />;
     } else if (this.state.selectedBuilding){
       child = <Widget
         title={this.state.selectedBuilding}
