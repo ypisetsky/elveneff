@@ -130,7 +130,7 @@ class Building {
     streets.append(new Value("the street itself", streetLen * cultureDensity));
     streets.append(new Value("the culture from the street", -1 * streetLen * streetCulture));
 
-    if (this.name != "Residence") {
+    if (this.name != "Residence" && this.getPop(lvl)) {
       const res = getBuilding("Residence", this.race);
       const residenceTerm = res.getEffectiveCultureDerivation(
         residenceLevel,
@@ -175,6 +175,16 @@ class Building {
 }
 const Memoize = {};
 export default function getBuilding(name, race) {
+  if (typeof name === "object" && name !== null) {
+    // Create a 1-level building from an object
+    const data = name;
+    const ret = new Building(data.name, race);
+    ret.levels = [data.basicStats];
+    ret.Output = data.Output;
+    ret.Production = data.Production;
+    ret.Valid = true;
+    return ret;
+  }
   Memoize[name] = Memoize[name] || {};
   return Memoize[name][race] = Memoize[name][race] || new Building(name, race);
 }

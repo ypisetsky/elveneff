@@ -30,6 +30,7 @@ export class SumHolder {
     for (const elem of this.terms) {
       elem.scaleBy(scale);
     }
+    return this;
   }
 
   clone() {

@@ -44,7 +44,7 @@ class WidgetOrSelectorContainer extends React.Component {
     return <td>
       <select onChange={(event) => { if (event.target.value) this.setState({selectedBuilding: event.target.value})} }>
         <option value={null}>Select a Building</option>
-        <option value="rescult">Residence/Culture Calculator</option>
+        <option value="rescult">Event/Custom Building Calculator</option>
         {buildings}
       </select>
       <br />
