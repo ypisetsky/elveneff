@@ -1,10 +1,12 @@
 'use strict';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ReactTooltip from 'react-tooltip';
 import './style.css';
-import Data from './data';
+
 import Building from './building';
 import {formatNum, outputIndex} from './util';
+import {Derivation} from './derivation';
 
 class ResidenceCultureChecker extends React.Component {
   constructor(props) {
@@ -19,6 +21,7 @@ class ResidenceCultureChecker extends React.Component {
       output9h: 0,
     }
     this.changer = this.changer.bind(this);
+    this.id_prefix = Math.floor(Math.random() * 1000000000000);
   }
   render() {
     let culture = parseInt(this.state.cult);
@@ -133,7 +136,16 @@ class ResidenceCultureChecker extends React.Component {
       return [
         <tr>
           <td>Effective spaces used</td>
-          <td>{goodsSpace.getSum()}</td>
+          <td>
+            <a data-tip="Hello" data-for={this.id_prefix + ":1"}>
+              {formatNum(goodsSpace.getSum())}
+            </a>
+            <ReactTooltip place="top" type="dark" effect="float" id={this.id_prefix + ":1"}>
+              <ul className="tooltip">
+                <Derivation word="spaces" item={goodsSpace} />
+              </ul>
+            </ReactTooltip>
+          </td>
         </tr>,
         <tr>
           <td>Daily output</td>
