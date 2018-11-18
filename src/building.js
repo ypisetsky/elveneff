@@ -106,7 +106,6 @@ class Building {
   }
 
   getDailyOutput(level, collectCount, relicBoost, extras) {
-    console.log(this.name, level,collectCount, relicBoost, extras);
     let out = 0;
     if (!this.Production) {
       return this.getOutput(level, relicBoost);

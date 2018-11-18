@@ -167,11 +167,8 @@ class ElvenarCalculator extends React.Component {
     for (let streetCulture in Data.Roads) {
       if (parseInt(Data.Roads[streetCulture].Chapter) <= chapter && parseInt(streetCulture) > best) {
         best = parseInt(streetCulture);
-      } else {
-        console.log(Data.Roads[streetCulture].Chapter, chapter, best, streetCulture, "not best");
       }
     }
-    console.log(Data.Roads, best, chapter);
     this.setState({streetCulture: best});
     let cultureDensity = 145;
     let relicBoost = 700;
@@ -229,7 +226,7 @@ class ElvenarCalculator extends React.Component {
         cultureDensity = 340; // Pole of Donations (Halflings)
         break;
       case 13:
-        cultureDensity = 430; // Cafe masquerade (Elementals)
+        cultureDensity = 460; // From soggyshorts
         break;
     }
     this.setState({cultureDensity, relicBoost});
