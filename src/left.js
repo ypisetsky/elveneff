@@ -47,7 +47,7 @@ class LeftNav extends React.Component {
     }
 
     const chapters = [];
-    for(let i = 1; i <= 12; i++) {
+    for(let i = 1; i <= 13; i++) {
       chapters.push(
         <option value={i} key={i}>Chapter {i} ({renderChapter(i)})</option>
       );

@@ -45,6 +45,8 @@ const ElvesData = {
     [11,3,5,83,  0,200],
     [12,4,4,158, 0,400],
     [12,4,4,108, 0,200],
+    [13,4,4,120, 0,300], // 30
+    [13,4,4,130, 0,300],
   ],
   Workshop: [
     [ 1,2,2,   0, 18,  29],
@@ -619,6 +621,7 @@ const Roads = {
   117: { Name: "Lore St.", Chapter: 10},
   144: { Name: "Country Ln", Chapter: 11},
   176: { Name: "Eternal St", Chapter: 12},
+  210: { Name: "Divine St", Chapter: 13},
 }
 
 module.exports = {

@@ -148,7 +148,7 @@ class ElvenarCalculator extends React.Component {
     if (!event.target.value) {
       return;
     }
-    const chapter = event.target.value ;
+    const chapter = parseInt(event.target.value);
     const res = Building("Residence", "Elves");
     for (let i = res.getMaxLevel(); i >= res.getMinLevel(); i--) {
       if (res.getChapter(i) <= chapter) {
@@ -165,14 +165,17 @@ class ElvenarCalculator extends React.Component {
     }
     let best = 0;
     for (let streetCulture in Data.Roads) {
-      if (Data.Roads[streetCulture].Chapter <= chapter && streetCulture > best) {
-        best = streetCulture;
+      if (parseInt(Data.Roads[streetCulture].Chapter) <= chapter && parseInt(streetCulture) > best) {
+        best = parseInt(streetCulture);
+      } else {
+        console.log(Data.Roads[streetCulture].Chapter, chapter, best, streetCulture, "not best");
       }
     }
+    console.log(Data.Roads, best, chapter);
     this.setState({streetCulture: best});
     let cultureDensity = 145;
     let relicBoost = 700;
-    switch (parseInt(chapter)) {
+    switch (chapter) {
       // In most cases, I use an item actually in the last row of techs from
       // the previous age
       case 1:
@@ -209,10 +212,24 @@ class ElvenarCalculator extends React.Component {
         break;
       case 9:
         cultureDensity = 145; // Campfire BBQ (Orcs)
-        relicBoost = 700;
         break;
-      default:
-        cultureDensity = 145;
+      case 10:
+        // This is where it gets weird. Many buildings also produce mana, but you can use them
+        // purely as culture. For instance Autumn's Greetings is 190 culture per tile, but it
+        // is quite hard to spam them due to time to build + cost. I pick something a bit lower
+        // but the pattern is clear: we start skyrocketing here.
+        cultureDensity = 170;
+        break;
+      case 11:
+        // Chess pieces are 263. Mana fountain is 213. Serious fudge factor territory here
+        // until I figure out what to do with mana production.
+        cultureDensity = 250;
+        break;
+      case 12:
+        cultureDensity = 340; // Pole of Donations (Halflings)
+        break;
+      case 13:
+        cultureDensity = 430; // Cafe masquerade (Elementals)
         break;
     }
     this.setState({cultureDensity, relicBoost});
